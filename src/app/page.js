@@ -1,69 +1,145 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useMemo } from "react";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import SearchFilterBar from "@/components/SearchFilterBar";
+import CuratedCollection, {
+  PROPERTIES_DATA,
+} from "@/components/CuratedCollection";
+import TypologiesSection from "@/components/TypologiesSection";
+import PhilosophySection from "@/components/PhilosophySection";
+import PrivateAdvisoryBanner from "@/components/PrivateAdvisoryBanner";
+import Footer from "@/components/Footer";
+import InquiryModal from "@/components/InquiryModal";
 
 export default function Home() {
+  // Filter state
+  const [filters, setFilters] = useState({
+    mode: "BUY",
+    location: "ALL",
+    typology: "ALL",
+    budget: "ALL",
+    bedrooms: "Any",
+    style: "ALL",
+    features: [],
+  });
+
+  // Modal states
+  const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
+  const [inquiryTopic, setInquiryTopic] = useState("Private Portfolio Access");
+
+  // Filtered properties
+  const filteredProperties = useMemo(() => {
+    return PROPERTIES_DATA.filter((item) => {
+      // Filter by mode
+      if (item.mode !== filters.mode) return false;
+
+      // Filter by location
+      if (filters.location !== "ALL") {
+        if (!item.location.toLowerCase().includes(filters.location.toLowerCase().split(",")[0].trim())) {
+          return false;
+        }
+      }
+
+      // Filter by typology
+      if (filters.typology !== "ALL" && item.typology !== filters.typology) {
+        return false;
+      }
+
+      // Filter by bedrooms
+      if (filters.bedrooms !== "Any") {
+        const minBeds = parseInt(filters.bedrooms);
+        if (item.beds < minBeds) return false;
+      }
+
+      // Filter by architectural style
+      if (filters.style !== "ALL" && item.style !== filters.style) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [filters]);
+
+  const handleOpenInquiry = (topic) => {
+    setInquiryTopic(topic);
+    setInquiryModalOpen(true);
+  };
+
+  const handleSelectTypology = (typologyId) => {
+    // Scroll to collection and filter
+    const el = document.getElementById("collection");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (typologyId === "penthouse") {
+      setFilters((prev) => ({ ...prev, mode: "RENT", typology: "Penthouse" }));
+    } else if (typologyId === "villa") {
+      setFilters((prev) => ({ ...prev, mode: "BUY", typology: "Villa" }));
+    } else {
+      setFilters((prev) => ({ ...prev, typology: "ALL" }));
+    }
+  };
+
+  const handleApplyFilters = () => {
+    const el = document.getElementById("collection");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#141513] text-[#1A1C1A] dark:text-[#FAF9F6] selection:bg-[#EAE3D8] selection:text-[#0F100C] transition-colors">
+      {/* Editorial Navigation */}
+      <Navbar onOpenInquiry={handleOpenInquiry} />
+
+      {/* Hero Visual Presentation */}
+      <main>
+        <HeroSection
+          onExplore={() => {
+            const el = document.getElementById("collection");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }}
+          onContact={() => handleOpenInquiry("General Consultation")}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        {/* Floating Search & Filter Console */}
+        <SearchFilterBar
+          filters={filters}
+          setFilters={setFilters}
+          onApplyFilters={handleApplyFilters}
+        />
+
+        {/* Curated Collection Grid */}
+        <CuratedCollection
+          properties={
+            filteredProperties.length > 0 ? filteredProperties : PROPERTIES_DATA
+          }
+          onInquireDiscreetly={() =>
+            handleOpenInquiry("Off-Market Discreet Acquisitions")
+          }
+        />
+
+        {/* Spatial Typologies Exploration */}
+        <TypologiesSection onSelectTypology={handleSelectTypology} />
+
+        {/* Philosophical Statement & Monograph */}
+        <PhilosophySection />
+
+        {/* Private Advisory Direct CTA */}
+        <PrivateAdvisoryBanner
+          onScheduleAdvisory={() =>
+            handleOpenInquiry("Senior Advisory Docket Consultation")
+          }
+        />
       </main>
+
+      {/* Structured Editorial Footer */}
+      <Footer onOpenInquiry={handleOpenInquiry} />
+
+      {/* Interactive Inquiries & Access Modal */}
+      <InquiryModal
+        isOpen={inquiryModalOpen}
+        onClose={() => setInquiryModalOpen(false)}
+        defaultTopic={inquiryTopic}
+      />
     </div>
   );
 }
