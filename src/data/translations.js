@@ -56,6 +56,9 @@ export const DICTIONARY = {
     col_view_residence: "VIEW ARCHITECTURE",
     col_discreet_box: "Seeking off-market or discreet acquisitions? Our private registry contains over 40+ unlisted estates across Cairo, Red Sea, and Dubai.",
     col_inquire_discreetly: "INQUIRE DISCREETLY",
+    col_no_results_title: "No Matching Residences",
+    col_no_results_desc: "Adjust your search criteria or reset the filters to view the full curated collection.",
+    col_reset_filters: "RESET FILTERS",
 
     // Typologies
     typologies_eyebrow: "CURATED TYPOLOGIES",
@@ -126,7 +129,7 @@ export const DICTIONARY = {
     detail_geo_eyebrow: "GEOGRAPHIC SANCTUARY",
     detail_similar_eyebrow: "COMPLEMENTARY PORTFOLIO",
     detail_similar_heading: "Similar Curated Residences",
-    detail_similar_explore_all: "EXPLORE ALL 24 LISTINGS",
+    detail_similar_explore_all: "EXPLORE ALL 29 LISTINGS",
 
     // Advisor Sidebar
     adv_label: "LISTING ADVISOR",
@@ -247,6 +250,9 @@ export const DICTIONARY = {
     col_view_residence: "معاينة الطراز المعماري",
     col_discreet_box: "هل تبحث عن صفقات خاصة غير معلنة؟ يحتوي سجلنا السري على أكثر من 40 عقاراً نادراً عبر القاهرة والبحر الأحمر ودبي.",
     col_inquire_discreetly: "استفسر بسرية تامة",
+    col_no_results_title: "لا توجد مساكن مطابقة",
+    col_no_results_desc: "عدّل معايير البحث أو أعد ضبط المرشحات لعرض المجموعة العقارية الكاملة.",
+    col_reset_filters: "إعادة ضبط المرشحات",
 
     // Typologies
     typologies_eyebrow: "الأنماط المعمارية",
@@ -284,7 +290,7 @@ export const DICTIONARY = {
     props_sort_price_asc: "السعر: من الأقل للأعلى",
     props_sort_price_desc: "السعر: من الأعلى للأقل",
     props_sort_area_desc: "المساحة: الأكبر أولاً",
-    props_page_summary: "صفحة {page} من {total} • {count} عقاراً من إجمالي 89 أصلاً",
+    props_page_summary: "صفحة {page} من {total} • {count} عقاراً من إجمالي {totalListings} أصلاً",
     props_prev: "السابق",
     props_next: "التالي",
     props_unlisted_eyebrow: "الاستحواذات الخاصة والصفقات غير المعلنة",
@@ -317,7 +323,7 @@ export const DICTIONARY = {
     detail_geo_eyebrow: "الموقع الجغرافي المتميز",
     detail_similar_eyebrow: "محفظة تكميلية",
     detail_similar_heading: "مساكن منتقاة مشابهة",
-    detail_similar_explore_all: "استكشف جميع العقارات (24)",
+    detail_similar_explore_all: "استكشف جميع العقارات (29)",
 
     // Advisor Sidebar
     adv_label: "مستشار العقار",

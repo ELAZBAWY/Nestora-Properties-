@@ -46,7 +46,7 @@ function PropertiesContent({ searchParams }) {
 
   // Filtered dataset
   const filteredProperties = useMemo(() => {
-    // If on fresh load with no URL query params, show the 6 showcase reference properties from the screenshot
+    // On a fresh load, show the complete canonical inventory.
     if (!hasInteracted) {
       return PROPERTIES;
     }
@@ -152,6 +152,11 @@ function PropertiesContent({ searchParams }) {
     setCurrentPage(1);
   };
 
+  const handleSortChange = (nextSort) => {
+    setSortBy(nextSort);
+    setCurrentPage(1);
+  };
+
   const handleOpenInquiry = (topic) => {
     setInquiryTopic(topic);
     setInquiryModalOpen(true);
@@ -179,11 +184,23 @@ function PropertiesContent({ searchParams }) {
           resultsCount={sortedProperties.length}
           totalCount={PROPERTIES.length}
           sortBy={sortBy}
-          onSortChange={setSortBy}
+          onSortChange={handleSortChange}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
         />
-
+        {sortedProperties.length > 0 && (
+          <PropertyPagination
+            currentPage={safeCurrentPage}
+            totalPages={totalPages}
+            currentCount={paginatedProperties.length}
+            totalProperties={sortedProperties.length}
+            totalListings={PROPERTIES.length}
+            onPageChange={(page) => {
+              setCurrentPage(page);
+              window.scrollTo({ top: 380, behavior: "smooth" });
+            }}
+          />
+        )}
         {/* Section D: Property Listings Grid */}
         <PropertiesGrid
           properties={paginatedProperties}
@@ -201,19 +218,6 @@ function PropertiesContent({ searchParams }) {
         />
 
         {/* Section E: Pagination */}
-        {sortedProperties.length > 0 && (
-          <PropertyPagination
-            currentPage={safeCurrentPage}
-            totalPages={totalPages}
-            currentCount={paginatedProperties.length}
-            totalProperties={sortedProperties.length}
-            totalListings={89}
-            onPageChange={(page) => {
-              setCurrentPage(page);
-              window.scrollTo({ top: 380, behavior: "smooth" });
-            }}
-          />
-        )}
 
         {/* Section F: Private Acquisition CTA */}
         <PrivateAcquisitionCTA onPrivateInquiry={handleOpenInquiry} />

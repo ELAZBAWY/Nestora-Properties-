@@ -6,7 +6,7 @@ export default function PhilosophySection() {
   const { t, isRTL } = useApp();
 
   return (
-    <section id="philosophy" className="w-full py-24 md:py-32 bg-[#FAF9F6] dark:bg-[#141513] border-t border-[rgba(36,37,33,0.08)] dark:border-[rgba(250,249,246,0.08)] transition-colors">
+    <section id="philosophy" data-scroll-reveal className="nestora-enter w-full py-24 md:py-32 bg-[#FAF9F6] dark:bg-[#141513] border-t border-[rgba(36,37,33,0.08)] dark:border-[rgba(250,249,246,0.08)] transition-colors">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Philosophical Manifesto & Narrative */}

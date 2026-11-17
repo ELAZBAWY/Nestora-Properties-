@@ -1,6 +1,7 @@
 import { EB_Garamond, DM_Sans, Amiri, Tajawal } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
+import ScrollRevealObserver from "@/components/ScrollRevealObserver";
 
 const ebGaramond = EB_Garamond({
   variable: "--font-eb-garamond",
@@ -51,7 +52,10 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-[#FAF9F6] text-[#1A1C1A] dark:bg-[#141513] dark:text-[#FAF9F6] transition-colors duration-200">
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>
+          <ScrollRevealObserver />
+          {children}
+        </AppProvider>
       </body>
     </html>
   );

@@ -7,7 +7,7 @@ export default function HeroSection({ onExplore, onContact }) {
   const { t } = useApp();
 
   return (
-    <section className="relative w-full min-h-[92vh] flex flex-col justify-between text-[#FAF9F6] overflow-hidden">
+    <section data-scroll-reveal className="nestora-enter relative w-full min-h-[92vh] flex flex-col justify-between text-[#FAF9F6] overflow-hidden">
       {/* Background Architectural Photo with Atmospheric Scrim */}
       <div className="absolute inset-0 z-0">
         <img
@@ -45,13 +45,13 @@ export default function HeroSection({ onExplore, onContact }) {
           <div className="pt-4 flex flex-wrap items-center gap-4">
             <button
               onClick={onExplore}
-              className="bg-[#FAF9F6] text-[#0F100C] hover:bg-[#EAE3D8] px-8 py-3.5 label-caps text-xs tracking-[0.16em] transition-all cursor-pointer border border-[#FAF9F6] font-medium"
+              className="nestora-interactive bg-[#FAF9F6] text-[#0F100C] hover:bg-[#EAE3D8] px-8 py-3.5 label-caps text-xs tracking-[0.16em] transition-all cursor-pointer border border-[#FAF9F6] font-medium"
             >
               {t("hero_cta_explore")}
             </button>
             <button
               onClick={onContact}
-              className="bg-transparent hover:bg-[#FAF9F6]/10 text-[#FAF9F6] px-8 py-3.5 label-caps text-xs tracking-[0.16em] transition-all cursor-pointer border border-[rgba(250,249,246,0.6)] font-medium"
+              className="nestora-interactive bg-transparent hover:bg-[#FAF9F6]/10 text-[#FAF9F6] px-8 py-3.5 label-caps text-xs tracking-[0.16em] transition-all cursor-pointer border border-[rgba(250,249,246,0.6)] font-medium"
             >
               {t("hero_cta_contact")}
             </button>

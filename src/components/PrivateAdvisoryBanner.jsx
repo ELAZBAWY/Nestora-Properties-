@@ -6,7 +6,7 @@ export default function PrivateAdvisoryBanner({ onScheduleAdvisory }) {
   const { t } = useApp();
 
   return (
-    <section id="advisory" className="w-full py-16 md:py-24 bg-[#FAF9F6] dark:bg-[#141513] transition-colors">
+    <section id="advisory" data-scroll-reveal className="nestora-enter w-full py-16 md:py-24 bg-[#FAF9F6] dark:bg-[#141513] transition-colors">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <div className="bg-[#F4EFE6] dark:bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] p-8 md:p-14 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 transition-colors">
           {/* Narrative Content */}
@@ -28,7 +28,7 @@ export default function PrivateAdvisoryBanner({ onScheduleAdvisory }) {
           <div className="flex-shrink-0 w-full lg:w-auto">
             <button
               onClick={onScheduleAdvisory}
-              className="w-full lg:w-auto bg-[#242521] dark:bg-[#FAF9F6] hover:bg-[#705B3F] dark:hover:bg-[#C5A880] text-[#FAF9F6] dark:text-[#1A1C1A] px-8 py-4 label-caps text-xs tracking-[0.18em] transition-colors cursor-pointer border border-[#242521] dark:border-[#FAF9F6] font-medium"
+              className="nestora-interactive w-full lg:w-auto bg-[#242521] dark:bg-[#FAF9F6] hover:bg-[#705B3F] dark:hover:bg-[#C5A880] text-[#FAF9F6] dark:text-[#1A1C1A] px-8 py-4 label-caps text-xs tracking-[0.18em] transition-colors cursor-pointer border border-[#242521] dark:border-[#FAF9F6] font-medium"
             >
               {t("advisory_btn")}
             </button>

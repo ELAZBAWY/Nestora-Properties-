@@ -145,3 +145,92 @@ body {
 .arrow-icon {
   transition: transform 0.2s ease-in-out;
 }
+
+/* Lightweight editorial motion: compositor-friendly and opt-out for reduced motion. */
+@keyframes nestora-rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.nestora-enter {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+}
+
+.nestora-stagger > * {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+}
+
+.nestora-enter.is-visible {
+  animation: nestora-rise-in 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.nestora-stagger.is-visible > * {
+  animation: nestora-rise-in 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.nestora-stagger > *:nth-child(1) { animation-delay: 80ms; }
+.nestora-stagger > *:nth-child(2) { animation-delay: 150ms; }
+.nestora-stagger > *:nth-child(3) { animation-delay: 220ms; }
+.nestora-stagger > *:nth-child(4) { animation-delay: 290ms; }
+.nestora-stagger > *:nth-child(5) { animation-delay: 360ms; }
+.nestora-stagger > *:nth-child(6) { animation-delay: 430ms; }
+
+.nestora-card {
+  will-change: transform;
+}
+
+.nestora-interactive {
+  transition-property: transform, background-color, border-color, color;
+  transition-duration: 240ms;
+  transition-timing-function: ease-out;
+}
+
+.nestora-nav-link {
+  transition-property: transform, color;
+  transition-duration: 220ms;
+  transition-timing-function: ease-out;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .nestora-nav-link:hover {
+    transform: translateY(-1px);
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .nestora-interactive:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .nestora-enter,
+  .nestora-stagger > *,
+  .nestora-enter.is-visible,
+  .nestora-stagger.is-visible > * {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}

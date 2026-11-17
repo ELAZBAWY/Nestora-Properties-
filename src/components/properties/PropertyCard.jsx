@@ -26,7 +26,7 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
   if (viewMode === "list") {
     const ListCardContent = (
       <article
-        className="group bg-[#FAF9F6] dark:bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] flex flex-col md:flex-row cursor-pointer transition-all duration-300 hover:border-[#242521] dark:hover:border-[#FAF9F6] hover:scale-[1.005] overflow-hidden"
+        className="group nestora-card bg-[#FAF9F6] dark:bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] flex flex-col md:flex-row cursor-pointer transition-all duration-300 hover:border-[#242521] dark:hover:border-[#FAF9F6] hover:scale-[1.005] overflow-hidden"
       >
         {/* Image Container */}
         <div className="relative w-full md:w-80 md:min-w-[320px] aspect-[16/10] md:aspect-auto overflow-hidden bg-[#EAE3D8] dark:bg-[#202220]">
@@ -116,7 +116,7 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
   // Grid View (Default)
   const GridCardContent = (
     <article
-      className="group bg-[#FAF9F6] dark:bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] flex flex-col justify-between cursor-pointer transition-all duration-300 hover:border-[#242521] dark:hover:border-[#FAF9F6] hover:scale-[1.01] overflow-hidden h-full"
+      className="group nestora-card bg-[#FAF9F6] dark:bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] flex flex-col justify-between cursor-pointer transition-all duration-300 hover:border-[#242521] dark:hover:border-[#FAF9F6] hover:scale-[1.01] overflow-hidden h-full"
     >
       {/* Media Container with Locked Aspect Ratio */}
       <div className="relative aspect-[16/10] overflow-hidden bg-[#EAE3D8] dark:bg-[#202220]">

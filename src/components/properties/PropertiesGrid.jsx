@@ -38,10 +38,10 @@ export default function PropertiesGrid({
   }
 
   return (
-    <section className="w-full pb-16 bg-[#FAF9F6] dark:bg-[#141513] transition-colors">
+    <section data-scroll-reveal className="nestora-enter w-full pb-16 bg-[#FAF9F6] dark:bg-[#141513] transition-colors">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
         {viewMode === "grid" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div data-scroll-reveal className="nestora-stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {properties.map((property) => (
               <PropertyCard
                 key={property.id}

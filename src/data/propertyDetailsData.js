@@ -1522,3 +1522,162 @@ export const PROPERTY_DETAILS_MAP = {
   "signature-glass-pavilion": SIGNATURE_PAVILION_DETAIL,
   "nst-701": SIGNATURE_PAVILION_DETAIL,
 };
+
+const DETAIL_GALLERY_FALLBACKS = [
+  "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=88",
+  "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=88",
+  "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=88",
+];
+
+const DETAIL_AMENITY_ICONS = [
+  "Waves",
+  "Cpu",
+  "Columns",
+  "Home",
+  "UtensilsCrossed",
+  "SunMedium",
+  "ShieldCheck",
+  "Sparkles",
+];
+
+export function createPropertyDetailFromProperty(property) {
+  const isRental = property.mode === "RENT";
+  const gallery = [property.image, ...DETAIL_GALLERY_FALLBACKS].map((src, index) => ({
+    id: `${property.id}-gallery-${index + 1}`,
+    title: `${property.title} — ${index === 0 ? "Exterior Folio" : `Interior Study ${index}`}`,
+    src,
+    caption:
+      index === 0
+        ? property.architecturalNotes
+        : `${property.title} presented through a curated architectural detail study.`,
+    overlayLabel: index === 0 ? "ARCHITECTURAL FOLIO" : `INTERIOR STUDY ${index}`,
+  }));
+
+  const amenityTitles = [
+    property.features?.[0] || "Signature Outdoor Space",
+    property.features?.[1] || "Integrated Smart Systems",
+    property.features?.[2] || "Architectural Reception",
+    property.features?.[3] || "Private Service Provision",
+    "Curated Material Palette",
+    "Climate-Conscious Systems",
+    "Discreet Security",
+    "Private Wellness Provision",
+  ];
+
+  return {
+    id: property.id,
+    slug: property.slug,
+    ref: property.ref,
+    refCode: property.id.toUpperCase(),
+    title: property.title,
+    city: property.city,
+    district: property.district,
+    districtLocation: `${property.district}, ${property.city}, ${property.country}`,
+    price: property.price,
+    period: property.period,
+    rawPrice: property.rawPrice,
+    priceUSD: isRental ? "Private lease terms available" : "Private valuation dossier available",
+    priceNote: isRental ? "Confidential lease terms available on request" : "Private acquisition terms available on request",
+    statusBadge: property.primaryBadge,
+    secondaryBadge: property.secondaryBadge,
+    specifications: [
+      {
+        label: "INTERNAL BUILT AREA",
+        value: property.areaDisplay,
+        note: "Curated architectural footprint",
+        labelAr: "المساحة المبنية الداخلية",
+        valAr: property.areaDisplay,
+        noteAr: "مساحة معمارية منتقاة",
+      },
+      {
+        label: "PLOT FOOTPRINT",
+        value: `${Math.round(property.area * 1.65)} m²`,
+        note: "Private grounds",
+        labelAr: "مساحة الأرض الإجمالية",
+        valAr: `${Math.round(property.area * 1.65)} م²`,
+        noteAr: "أراضٍ خاصة",
+      },
+      {
+        label: "SUITES",
+        value: `${property.beds} Bedrooms`,
+        note: "Private residential accommodation",
+        labelAr: "أجنحة النوم",
+        valAr: `${property.beds} غرف نوم`,
+        noteAr: "إقامة سكنية خاصة",
+      },
+      {
+        label: "BATHROOMS",
+        value: `${property.baths} Full Bath`,
+        note: "Guest powder room provision",
+        labelAr: "دورات المياه",
+        valAr: `${property.baths} حمامات كاملة`,
+        noteAr: "خدمات ضيافة متكاملة",
+      },
+      {
+        label: "PARKING",
+        value: `${Math.max(2, Math.ceil(property.beds / 2))} Vehicles`,
+        note: "Secured private parking",
+        labelAr: "مواقف السيارات",
+        valAr: `${Math.max(2, Math.ceil(property.beds / 2))} سيارات`,
+        noteAr: "مواقف خاصة مؤمنة",
+      },
+      {
+        label: "COMPLETION",
+        value: property.mode === "RENT" ? "Turnkey" : "Ready",
+        note: "Private viewing by appointment",
+        labelAr: "حالة التسليم",
+        valAr: property.mode === "RENT" ? "جاهز للسكن" : "جاهز للتسليم",
+        noteAr: "المعاينة الخاصة حسب الموعد",
+      },
+    ],
+    gallery,
+    curationNotes: {
+      eyebrow: "CURATION NOTES",
+      heading: property.title,
+      headingAr: property.title,
+      paragraphs: [
+        property.description,
+        property.architecturalNotes,
+        `${property.title} is presented as a considered private residence with a clear relationship between material, light, landscape, and daily ritual. The folio is available through the NESTORA advisory practice.`,
+      ],
+      paragraphsAr: [
+        property.description,
+        property.architecturalNotes,
+        `يقدم ${property.title} كمسكن خاص متكامل يجمع بين المواد والضوء والمشهد الطبيعي وإيقاع الحياة اليومية. الملف الكامل متاح عبر ممارسة نستورا الاستشارية الخاصة.`,
+      ],
+    },
+    amenities: amenityTitles.map((title, index) => ({
+      id: `${property.id}-amenity-${index + 1}`,
+      title,
+      titleAr: title,
+      description: `${title} curated for the property's ${property.typology.toLowerCase()} brief and private client use.`,
+      descAr: `${title} مصمم بعناية ليتناسب مع طبيعة العقار واحتياجات العملاء الخاصة.`,
+      icon: DETAIL_AMENITY_ICONS[index],
+    })),
+    floorplan: {
+      eyebrow: "FLOOR LEVELS",
+      heading: `${property.typology} — Principal Living Level`,
+      description: `The architectural dossier for ${property.title} includes the principal floor arrangement, service circulation, elevations, and key material references.`,
+      downloadActionText: "DOWNLOAD ARCHITECTURAL DOSSIER (PDF)",
+      image: property.image,
+      specs: [{ val: property.areaDisplay }],
+    },
+    locationSection: {
+      eyebrow: "GEOGRAPHIC SANCTUARY",
+      heading: `${property.district}, ${property.city}`,
+      subtext: `A considered ${property.category.toLowerCase()} setting with direct access to the area's principal cultural, leisure, and business destinations.`,
+      badgeTitle: property.city,
+      badgeDescription: `${property.district} is presented through a private advisory lens with viewing access arranged discreetly.`,
+    },
+    advisor: {
+      name: "Karim El-Sayed",
+      role: "Senior Partner, Private Advisory",
+      ref: "Partner Ref. #NK-914",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+      officeDirect: "+20 (0) 2 2790 4400",
+      privateMobile: "+20 100 248 9912",
+      whatsapp: "+201002489912",
+    },
+    similarResidences: [],
+  };
+}

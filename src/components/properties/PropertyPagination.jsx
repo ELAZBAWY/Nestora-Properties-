@@ -5,17 +5,17 @@ import { useApp } from "@/context/AppContext";
 
 export default function PropertyPagination({
   currentPage = 1,
-  totalPages = 4,
+  totalPages = 5,
   currentCount = 6,
-  totalProperties = 24,
-  totalListings = 89,
+  totalProperties = 30,
+  totalListings = 29,
   onPageChange,
 }) {
   const { t, isRTL } = useApp();
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="w-full bg-[#FAF9F6] dark:bg-[#141513] pb-16 pt-4 border-t border-[rgba(36,37,33,0.06)] dark:border-[rgba(250,249,246,0.06)] transition-colors">
+    <div className="w-full bg-[#FAF9F6] dark:bg-[#141513] pb-7 pt-4 border-t border-[rgba(36,37,33,0.06)] dark:border-[rgba(250,249,246,0.06)] transition-colors">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-6">
         {/* Left: Summary note */}
         <div className="font-editorial-sans text-xs sm:text-sm text-[#464741] dark:text-[#A0A29C]">

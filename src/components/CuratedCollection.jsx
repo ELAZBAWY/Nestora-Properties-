@@ -5,22 +5,22 @@ import { ArrowRight, Compass } from "lucide-react";
 import { PROPERTIES, getPropertyDetailUrl } from "@/data/properties";
 import { useApp } from "@/context/AppContext";
 
-// Export for backward compatibility with Home page
-export const PROPERTIES_DATA = PROPERTIES.slice(0, 3).map((p) => ({
-  ...p,
-  area: p.areaDisplay,
-  style: p.category,
-}));
+// Keep the collection backed by the centralized property dataset.
+export const PROPERTIES_DATA = PROPERTIES;
 
 export default function CuratedCollection({
   properties,
+  hasActiveFilters = false,
+  onResetFilters,
   onInquireDiscreetly,
 }) {
   const { t, isRTL } = useApp();
-  const displayProps = properties || PROPERTIES_DATA;
+  const displayProps = (properties || PROPERTIES_DATA)
+    .filter((property) => property.featured)
+    .slice(0, 3);
 
   return (
-    <section id="collection" className="w-full py-24 md:py-32 bg-[#FAF9F6] dark:bg-[#141513] transition-colors">
+    <section id="collection" data-scroll-reveal className="nestora-enter w-full py-24 md:py-32 bg-[#FAF9F6] dark:bg-[#141513] transition-colors">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-14 border-b border-[rgba(36,37,33,0.1)] dark:border-[rgba(250,249,246,0.1)]">
@@ -38,13 +38,14 @@ export default function CuratedCollection({
         </div>
 
         {/* 3-Column Property Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-12">
-          {displayProps.map((prop) => {
+        {displayProps.length > 0 ? (
+          <div data-scroll-reveal className="nestora-stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-12">
+            {displayProps.map((prop) => {
             const detailUrl = getPropertyDetailUrl(prop);
 
             const CardContent = (
               <article
-                className="group bg-[#FAF9F6] dark:bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] flex flex-col justify-between cursor-pointer transition-all duration-300 hover:border-[#242521] dark:hover:border-[#FAF9F6] hover:scale-[1.01] h-full"
+                className="group nestora-card bg-[#FAF9F6] dark:bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] flex flex-col justify-between cursor-pointer transition-all duration-300 hover:border-[#242521] dark:hover:border-[#FAF9F6] hover:scale-[1.01] h-full"
               >
                 {/* Media Container with Locked Aspect Ratio */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-[#EAE3D8] dark:bg-[#202220]">
@@ -132,8 +133,27 @@ export default function CuratedCollection({
                 {CardContent}
               </div>
             );
-          })}
-        </div>
+            })}
+          </div>
+        ) : (
+          <div className="mt-12 border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] bg-[#F4EFE6] dark:bg-[#1A1C1A] px-6 py-12 text-center">
+            <h3 className="font-editorial-serif text-3xl text-[#1A1C1A] dark:text-[#FAF9F6] font-normal">
+              {t("col_no_results_title")}
+            </h3>
+            <p className="max-w-lg mx-auto mt-3 font-editorial-sans text-sm text-[#464741] dark:text-[#A0A29C] leading-relaxed">
+              {t("col_no_results_desc")}
+            </p>
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={onResetFilters}
+                className="mt-6 bg-[#242521] dark:bg-[#FAF9F6] text-[#FAF9F6] dark:text-[#1A1C1A] px-6 py-3 label-caps text-xs tracking-[0.16em] transition-colors hover:bg-[#705B3F] dark:hover:bg-[#C5A880]"
+              >
+                {t("col_reset_filters")}
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Discreet / Off-Market Callout Banner */}
         <div className="mt-12 bg-[#F4F3F1] dark:bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors">

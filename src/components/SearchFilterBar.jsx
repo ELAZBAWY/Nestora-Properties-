@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Search, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { PROPERTIES } from "@/data/properties";
+import { getFilterOptions } from "@/lib/propertyFilters";
 
 export default function SearchFilterBar({
   filters,
@@ -11,19 +13,23 @@ export default function SearchFilterBar({
 }) {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const { t, isRTL } = useApp();
+  const { locations, typologies } = getFilterOptions(PROPERTIES);
+  const handleModeChange = (mode) =>
+    setFilters({ ...filters, mode, budget: "ALL" });
 
   return (
     <div
       id="filter-bar"
-      className="relative z-20 max-w-[1300px] mx-auto px-4 sm:px-6 -mt-8 md:-mt-12"
+      className="relative z-30 isolate max-w-[1300px] mx-auto px-4 sm:px-6 -mt-6 md:-mt-10 mb-2"
     >
-      <div className="bg-[#FAF9F6] dark:bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] p-6 md:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)] transition-colors">
+      <div className="relative z-10 bg-[#FAF9F6]/[0.98] dark:bg-[#1A1C1A]/[0.98] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] p-5 sm:p-6 md:p-8 shadow-[0_12px_36px_rgba(15,16,12,0.12)] ring-1 ring-[#FAF9F6]/70 dark:ring-[#141513]/70 transition-colors">
         {/* Top Control Bar: Buy/Rent tabs & Bespoke filters */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[rgba(36,37,33,0.1)] dark:border-[rgba(250,249,246,0.1)]">
           {/* Segmented Buy / Rent switch */}
           <div className="inline-flex border border-[#242521] dark:border-[rgba(250,249,246,0.3)]">
             <button
-              onClick={() => setFilters({ ...filters, mode: "BUY" })}
+              type="button"
+              onClick={() => handleModeChange("BUY")}
               className={`px-6 py-2 label-caps text-xs tracking-wider transition-colors cursor-pointer ${
                 filters.mode === "BUY"
                   ? "bg-[#242521] dark:bg-[#FAF9F6] text-[#FAF9F6] dark:text-[#1A1C1A] font-semibold"
@@ -33,7 +39,8 @@ export default function SearchFilterBar({
               {t("filter_buy")}
             </button>
             <button
-              onClick={() => setFilters({ ...filters, mode: "RENT" })}
+              type="button"
+              onClick={() => handleModeChange("RENT")}
               className={`px-6 py-2 label-caps text-xs tracking-wider transition-colors cursor-pointer ${
                 filters.mode === "RENT"
                   ? "bg-[#242521] dark:bg-[#FAF9F6] text-[#FAF9F6] dark:text-[#1A1C1A] font-semibold"
@@ -60,7 +67,7 @@ export default function SearchFilterBar({
         </div>
 
         {/* Main Inputs Row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 pt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 pt-6">
           {/* Location Selector */}
           <div className="flex flex-col space-y-1.5">
             <label className="label-caps text-[0.65rem] text-[#705B3F] dark:text-[#C5A880]">
@@ -75,11 +82,11 @@ export default function SearchFilterBar({
                 className="w-full h-12 px-3 bg-[#FAF9F6] dark:bg-[#141513] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] text-sm font-editorial-sans text-[#1A1C1A] dark:text-[#FAF9F6] focus:outline-none focus:border-[#242521] dark:focus:border-[#FAF9F6] transition-colors appearance-none cursor-pointer"
               >
                 <option value="ALL">{t("filter_all_destinations")}</option>
-                <option value="New Cairo, Egypt">{isRTL ? "القاهرة الجديدة، مصر" : "New Cairo, Egypt"}</option>
-                <option value="El Gouna, Red Sea">{isRTL ? "الجونة، البحر الأحمر" : "El Gouna, Red Sea"}</option>
-                <option value="Zamalek, Cairo">{isRTL ? "الزمالك، القاهرة" : "Zamalek, Cairo"}</option>
-                <option value="North Coast (Sahel)">{isRTL ? "الساحل الشمالي" : "North Coast (Sahel)"}</option>
-                <option value="Downtown Dubai, UAE">{isRTL ? "وسط مدينة دبي، الإمارات" : "Downtown Dubai, UAE"}</option>
+                {locations.map((location) => (
+                  <option key={location} value={location}>
+                    {isRTL ? getArabicLocationLabel(location) : location}
+                  </option>
+                ))}
               </select>
               <ChevronDown className="w-4 h-4 text-[#705B3F] dark:text-[#C5A880] absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
@@ -99,10 +106,11 @@ export default function SearchFilterBar({
                 className="w-full h-12 px-3 bg-[#FAF9F6] dark:bg-[#141513] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] text-sm font-editorial-sans text-[#1A1C1A] dark:text-[#FAF9F6] focus:outline-none focus:border-[#242521] dark:focus:border-[#FAF9F6] transition-colors appearance-none cursor-pointer"
               >
                 <option value="ALL">{t("filter_all_typologies")}</option>
-                <option value="Villa">{isRTL ? "فيلات وقصور خاصة" : "Signature Villas & Estates"}</option>
-                <option value="Penthouse">{isRTL ? "بنتهاوس ودوبلكس علوي" : "Sky Penthouses & Duplexes"}</option>
-                <option value="Coastal">{isRTL ? "ملاذات شاطئية وبحرية" : "Beachfront Compounds"}</option>
-                <option value="Commercial">{isRTL ? "مساحات تجارية وإدارية" : "Commercial & Prime Retail"}</option>
+                {typologies.map((typology) => (
+                  <option key={typology} value={typology}>
+                    {isRTL ? getArabicTypologyLabel(typology) : typology}
+                  </option>
+                ))}
               </select>
               <ChevronDown className="w-4 h-4 text-[#705B3F] dark:text-[#C5A880] absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
@@ -143,6 +151,7 @@ export default function SearchFilterBar({
           {/* Search Button */}
           <div className="flex flex-col justify-end">
             <button
+              type="button"
               onClick={onApplyFilters}
               className="w-full h-12 bg-[#242521] dark:bg-[#FAF9F6] hover:bg-[#705B3F] dark:hover:bg-[#C5A880] text-[#FAF9F6] dark:text-[#1A1C1A] inline-flex items-center justify-center gap-2 label-caps text-xs tracking-[0.16em] transition-colors cursor-pointer border border-[#242521] dark:border-[#FAF9F6] font-medium"
             >
@@ -162,6 +171,7 @@ export default function SearchFilterBar({
               <div className="flex gap-2">
                 {["Any", "3+", "4+", "5+", "6+"].map((b) => (
                   <button
+                    type="button"
                     key={b}
                     onClick={() => setFilters({ ...filters, bedrooms: b })}
                     className={`flex-1 py-1.5 text-xs font-editorial-sans border transition-colors cursor-pointer ${
@@ -214,6 +224,7 @@ export default function SearchFilterBar({
                         : feature;
                     return (
                       <button
+                        type="button"
                         key={feature}
                         onClick={() => {
                           const current = filters.features || [];
@@ -240,4 +251,29 @@ export default function SearchFilterBar({
       </div>
     </div>
   );
+}
+
+function getArabicLocationLabel(location) {
+  const labels = {
+    "New Cairo": "القاهرة الجديدة",
+    "El Gouna": "الجونة",
+    Zamalek: "الزمالك",
+    "Sheikh Zayed": "الشيخ زايد",
+    "North Coast": "الساحل الشمالي",
+    "6th of October": "السادس من أكتوبر",
+  };
+
+  return labels[location] || location;
+}
+
+function getArabicTypologyLabel(typology) {
+  const labels = {
+    Villa: "فيلا",
+    Estate: "قصر / مجمع خاص",
+    Penthouse: "بنتهاوس",
+    Chalet: "شاليه",
+    Pavilion: "جناح معماري",
+  };
+
+  return labels[typology] || typology;
 }

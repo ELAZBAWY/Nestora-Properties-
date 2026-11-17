@@ -49,7 +49,7 @@ export default function TypologiesSection({ onSelectTypology }) {
   const { t, isRTL } = useApp();
 
   return (
-    <section id="typologies" className="w-full py-24 md:py-32 bg-[#FAF9F6] dark:bg-[#141513] border-t border-[rgba(36,37,33,0.08)] dark:border-[rgba(250,249,246,0.08)] transition-colors">
+    <section id="typologies" data-scroll-reveal className="nestora-enter w-full py-24 md:py-32 bg-[#FAF9F6] dark:bg-[#141513] border-t border-[rgba(36,37,33,0.08)] dark:border-[rgba(250,249,246,0.08)] transition-colors">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         {/* Section Header */}
         <div className="max-w-2xl mb-14">
@@ -65,12 +65,12 @@ export default function TypologiesSection({ onSelectTypology }) {
         </div>
 
         {/* 3 Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div data-scroll-reveal className="nestora-stagger grid grid-cols-1 md:grid-cols-3 gap-8">
           {TYPOLOGIES_DATA.map((item) => (
             <div
               key={item.id}
               onClick={() => onSelectTypology(item.id)}
-              className="group relative bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] overflow-hidden flex flex-col justify-end min-h-[480px] p-8 cursor-pointer transition-all duration-300 hover:border-[#242521] dark:hover:border-[#FAF9F6]"
+              className="group nestora-card relative bg-[#1A1C1A] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] overflow-hidden flex flex-col justify-end min-h-[480px] p-8 cursor-pointer transition-all duration-300 hover:border-[#242521] dark:hover:border-[#FAF9F6]"
             >
               {/* Background Architectural Image */}
               <div className="absolute inset-0 z-0">

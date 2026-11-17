@@ -3,15 +3,14 @@
 import { useState, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import SearchFilterBar from "@/components/SearchFilterBar";
-import CuratedCollection, {
-  PROPERTIES_DATA,
-} from "@/components/CuratedCollection";
+import CuratedCollection from "@/components/CuratedCollection";
 import TypologiesSection from "@/components/TypologiesSection";
 import PhilosophySection from "@/components/PhilosophySection";
 import PrivateAdvisoryBanner from "@/components/PrivateAdvisoryBanner";
 import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
+import { PROPERTIES } from "@/data/properties";
+import { filterProperties } from "@/lib/propertyFilters";
 
 export default function Home() {
   // Filter state
@@ -31,35 +30,7 @@ export default function Home() {
 
   // Filtered properties
   const filteredProperties = useMemo(() => {
-    return PROPERTIES_DATA.filter((item) => {
-      // Filter by mode
-      if (item.mode !== filters.mode) return false;
-
-      // Filter by location
-      if (filters.location !== "ALL") {
-        if (!item.location.toLowerCase().includes(filters.location.toLowerCase().split(",")[0].trim())) {
-          return false;
-        }
-      }
-
-      // Filter by typology
-      if (filters.typology !== "ALL" && item.typology !== filters.typology) {
-        return false;
-      }
-
-      // Filter by bedrooms
-      if (filters.bedrooms !== "Any") {
-        const minBeds = parseInt(filters.bedrooms);
-        if (item.beds < minBeds) return false;
-      }
-
-      // Filter by architectural style
-      if (filters.style !== "ALL" && item.style !== filters.style) {
-        return false;
-      }
-
-      return true;
-    });
+    return filterProperties(PROPERTIES, filters);
   }, [filters]);
 
   const handleOpenInquiry = (topic) => {
@@ -72,9 +43,19 @@ export default function Home() {
     const el = document.getElementById("collection");
     if (el) el.scrollIntoView({ behavior: "smooth" });
     if (typologyId === "penthouse") {
-      setFilters((prev) => ({ ...prev, mode: "RENT", typology: "Penthouse" }));
+      setFilters((prev) => ({
+        ...prev,
+        mode: "RENT",
+        budget: "ALL",
+        typology: "Penthouse",
+      }));
     } else if (typologyId === "villa") {
-      setFilters((prev) => ({ ...prev, mode: "BUY", typology: "Villa" }));
+      setFilters((prev) => ({
+        ...prev,
+        mode: "BUY",
+        budget: "ALL",
+        typology: "Villa",
+      }));
     } else {
       setFilters((prev) => ({ ...prev, typology: "ALL" }));
     }
@@ -83,6 +64,18 @@ export default function Home() {
   const handleApplyFilters = () => {
     const el = document.getElementById("collection");
     if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleResetFilters = () => {
+    setFilters({
+      mode: "BUY",
+      location: "ALL",
+      typology: "ALL",
+      budget: "ALL",
+      bedrooms: "Any",
+      style: "ALL",
+      features: [],
+    });
   };
 
   return (
@@ -100,18 +93,19 @@ export default function Home() {
           onContact={() => handleOpenInquiry("General Consultation")}
         />
 
-        {/* Floating Search & Filter Console */}
-        <SearchFilterBar
-          filters={filters}
-          setFilters={setFilters}
-          onApplyFilters={handleApplyFilters}
-        />
-
         {/* Curated Collection Grid */}
         <CuratedCollection
-          properties={
-            filteredProperties.length > 0 ? filteredProperties : PROPERTIES_DATA
+          properties={filteredProperties}
+          hasActiveFilters={
+            filters.mode !== "BUY" ||
+            filters.location !== "ALL" ||
+            filters.typology !== "ALL" ||
+            filters.budget !== "ALL" ||
+            filters.bedrooms !== "Any" ||
+            filters.style !== "ALL" ||
+            filters.features.length > 0
           }
+          onResetFilters={handleResetFilters}
           onInquireDiscreetly={() =>
             handleOpenInquiry("Off-Market Discreet Acquisitions")
           }

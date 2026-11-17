@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Search, ChevronDown, SlidersHorizontal, Home as HomeIcon, X } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { PROPERTIES } from "@/data/properties";
+import { getFilterOptions } from "@/lib/propertyFilters";
 
 export default function PropertyFilters({
   filters,
@@ -11,6 +13,7 @@ export default function PropertyFilters({
   onApplyFilters,
 }) {
   const { t, isRTL } = useApp();
+  const { typologies, categories } = getFilterOptions(PROPERTIES);
   // Local state for staged edits before applying (or direct reactive)
   const [localFilters, setLocalFilters] = useState(filters);
 
@@ -107,11 +110,11 @@ export default function PropertyFilters({
                 className="w-full h-11 px-3.5 bg-[#FAF9F6] dark:bg-[#141513] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] text-xs sm:text-sm font-editorial-sans text-[#1A1C1A] dark:text-[#FAF9F6] focus:border-[#242521] dark:focus:border-[#FAF9F6] focus:outline-none transition-colors appearance-none cursor-pointer"
               >
                 <option value="ALL">{t("filter_all_typologies")}</option>
-                <option value="Villa">{isRTL ? "فيلا استثنائية" : "Signature Villa"}</option>
-                <option value="Penthouse">{isRTL ? "بنتهاوس بانورامي" : "Sky Penthouse"}</option>
-                <option value="Estate">{isRTL ? "قصر / مجمع خاص" : "Private Estate"}</option>
-                <option value="Chalet">{isRTL ? "شاليه بفناء داخلي" : "Courtyard Chalet"}</option>
-                <option value="Pavilion">{isRTL ? "جناح زجاجي معاصر" : "Glass Pavilion"}</option>
+                {typologies.map((typology) => (
+                  <option key={typology} value={typology}>
+                    {isRTL ? getArabicTypologyLabel(typology) : typology}
+                  </option>
+                ))}
               </select>
               <ChevronDown className="w-4 h-4 text-[#705B3F] dark:text-[#C5A880] absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
@@ -149,7 +152,7 @@ export default function PropertyFilters({
             </div>
 
             {/* Beds Segmented Pills */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col xl:flex-row justify-center xl:max-w-fit w-full items-center gap-2">
               <span className="label-caps text-[0.625rem] text-[#705B3F] dark:text-[#C5A880] tracking-wider whitespace-nowrap">
                 {t("filter_min_beds")}:
               </span>
@@ -181,18 +184,18 @@ export default function PropertyFilters({
                   className="w-full h-10 pl-9 rtl:pl-7 rtl:pr-9 pr-7 bg-[#FAF9F6] dark:bg-[#141513] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] text-xs font-editorial-sans text-[#1A1C1A] dark:text-[#FAF9F6] focus:border-[#242521] dark:focus:border-[#FAF9F6] focus:outline-none transition-colors appearance-none cursor-pointer"
                 >
                   <option value="ALL">{isRTL ? "الفئة: جميع البيئات" : "Category: All Settings"}</option>
-                  <option value="Gated Compound">{isRTL ? "مجمع مسور فاخر" : "Gated Compound"}</option>
-                  <option value="Coastal Beachfront">{isRTL ? "إطلالة ساحلية مباشرة" : "Coastal Beachfront"}</option>
-                  <option value="Urban Sanctuary">{isRTL ? "ملاذ حضري هادئ" : "Urban Sanctuary"}</option>
-                  <option value="Private Grounds">{isRTL ? "أراضٍ وحدائق خاصة" : "Private Grounds"}</option>
-                  <option value="Golf Frontage">{isRTL ? "إطلالة ملاعب الجولف" : "Golf Frontage"}</option>
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {isRTL ? getArabicCategoryLabel(category) : category}
+                    </option>
+                  ))}
                 </select>
                 <ChevronDown className="w-3.5 h-3.5 text-[#705B3F] dark:text-[#C5A880] absolute right-2.5 rtl:right-auto rtl:left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             </div>
 
             {/* Action Buttons: Clear & Apply */}
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <div className="flex justify-center items-center gap-2 w-full sm:w-auto xl:justify-end">
               <button
                 type="button"
                 onClick={handleClear}
@@ -212,4 +215,32 @@ export default function PropertyFilters({
       </div>
     </div>
   );
+}
+
+function getArabicTypologyLabel(typology) {
+  const labels = {
+    Villa: "فيلا استثنائية",
+    Penthouse: "بنتهاوس بانورامي",
+    Estate: "قصر / مجمع خاص",
+    Chalet: "شاليه بفناء داخلي",
+    Pavilion: "جناح زجاجي معاصر",
+    Mansion: "قصر خاص",
+    Duplex: "دوبلكس فاخر",
+    Loft: "لوفت حضري",
+    Townhouse: "تاون هاوس ساحلي",
+  };
+
+  return labels[typology] || typology;
+}
+
+function getArabicCategoryLabel(category) {
+  const labels = {
+    "Gated Compound": "مجمع مسور فاخر",
+    "Coastal Beachfront": "إطلالة ساحلية مباشرة",
+    "Urban Sanctuary": "ملاذ حضري هادئ",
+    "Private Grounds": "أراضٍ وحدائق خاصة",
+    "Golf Frontage": "إطلالة ملاعب الجولف",
+  };
+
+  return labels[category] || category;
 }

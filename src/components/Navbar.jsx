@@ -39,7 +39,7 @@ export default function Navbar({ onOpenInquiry }) {
           <nav className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className={`label-caps text-xs py-2 tracking-[0.16em] transition-colors relative ${
+              className={`nestora-nav-link label-caps text-xs py-2 tracking-[0.16em] transition-colors relative ${
                 isHome
                   ? "text-[#1A1C1A] dark:text-[#FAF9F6] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#1A1C1A] dark:after:bg-[#FAF9F6]"
                   : "text-[#464741] dark:text-[#A0A29C] hover:text-[#1A1C1A] dark:hover:text-[#FAF9F6]"
@@ -49,7 +49,7 @@ export default function Navbar({ onOpenInquiry }) {
             </Link>
             <Link
               href="/properties"
-              className={`label-caps text-xs py-2 tracking-[0.16em] transition-colors relative ${
+              className={`nestora-nav-link label-caps text-xs py-2 tracking-[0.16em] transition-colors relative ${
                 isProperties
                   ? "text-[#1A1C1A] dark:text-[#FAF9F6] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#1A1C1A] dark:after:bg-[#FAF9F6]"
                   : "text-[#464741] dark:text-[#A0A29C] hover:text-[#1A1C1A] dark:hover:text-[#FAF9F6]"
@@ -59,13 +59,13 @@ export default function Navbar({ onOpenInquiry }) {
             </Link>
             <Link
               href="/#philosophy"
-              className="label-caps text-xs py-2 tracking-[0.16em] text-[#464741] dark:text-[#A0A29C] hover:text-[#1A1C1A] dark:hover:text-[#FAF9F6] transition-colors"
+              className="nestora-nav-link label-caps text-xs py-2 tracking-[0.16em] text-[#464741] dark:text-[#A0A29C] hover:text-[#1A1C1A] dark:hover:text-[#FAF9F6] transition-colors"
             >
               {t("nav_about")}
             </Link>
             <button
               onClick={() => onOpenInquiry?.(t("nav_contact"))}
-              className="label-caps text-xs py-2 tracking-[0.16em] text-[#464741] dark:text-[#A0A29C] hover:text-[#1A1C1A] dark:hover:text-[#FAF9F6] transition-colors cursor-pointer"
+              className="nestora-nav-link label-caps text-xs py-2 tracking-[0.16em] text-[#464741] dark:text-[#A0A29C] hover:text-[#1A1C1A] dark:hover:text-[#FAF9F6] transition-colors cursor-pointer"
             >
               {t("nav_contact")}
             </button>
