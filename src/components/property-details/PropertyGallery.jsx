@@ -27,7 +27,7 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
           <div className="lg:col-span-8 relative aspect-[16/10] sm:aspect-[16/10] overflow-hidden bg-[#EAE3D8] dark:bg-[#202220] border border-[#E2DBD0] dark:border-[rgba(250,249,246,0.15)] group">
             <img
               src={activeImage.src}
-              alt={activeImage.title || title}
+              alt={isRTL ? activeImage.titleAr || title : activeImage.title || title}
               className="w-full h-full object-cover object-center transition-all duration-700 ease-out"
             />
 
@@ -38,8 +38,8 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
             <button
               onClick={() => setLightboxOpen(true)}
               className="absolute top-4 right-4 rtl:right-auto rtl:left-4 bg-[#0F100C]/75 hover:bg-[#0F100C] text-[#FAF9F6] p-2 border border-[rgba(250,249,246,0.2)] transition-colors cursor-pointer"
-              title="View full-screen gallery"
-              aria-label="Expand image gallery"
+              title={isRTL ? "عرض المعرض بملء الشاشة" : "View full-screen gallery"}
+              aria-label={isRTL ? "توسيع معرض الصور" : "Expand image gallery"}
             >
               <Maximize2 className="w-4 h-4" />
             </button>
@@ -54,7 +54,9 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
                   {title}
                 </h2>
                 <p className="font-editorial-sans text-xs text-[#FAF9F6]/85 line-clamp-1">
-                  {activeImage.caption || "Monolithic regional travertine stone, infinity pool, and double-height central atrium"}
+                  {isRTL
+                    ? activeImage.captionAr || "تفاصيل معمارية منتقاة ومشهد طبيعي مصمم بعناية."
+                    : activeImage.caption || "Monolithic regional travertine stone, infinity pool, and double-height central atrium"}
                 </p>
               </div>
 
@@ -82,13 +84,13 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
             >
               <img
                 src={gallery[1]?.src}
-                alt={gallery[1]?.title}
+                alt={isRTL ? gallery[1]?.titleAr || title : gallery[1]?.title}
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0F100C]/80 via-transparent to-transparent" />
               <div className="absolute bottom-2.5 left-3 right-3">
                 <span className="label-caps text-[0.55rem] sm:text-[0.625rem] text-[#FAF9F6] tracking-[0.14em] line-clamp-1">
-                  {isRTL ? "صالة المعيشة الكبرى والمدفأة" : gallery[1]?.overlayLabel || "GRAND LIVING ROOM & HEARTH"}
+                  {isRTL ? gallery[1]?.overlayLabelAr || "صالة المعيشة الكبرى والمدفأة" : gallery[1]?.overlayLabel || "GRAND LIVING ROOM & HEARTH"}
                 </span>
               </div>
             </div>
@@ -104,13 +106,13 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
             >
               <img
                 src={gallery[2]?.src}
-                alt={gallery[2]?.title}
+                alt={isRTL ? gallery[2]?.titleAr || title : gallery[2]?.title}
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0F100C]/80 via-transparent to-transparent" />
               <div className="absolute bottom-2.5 left-3 right-3">
                 <span className="label-caps text-[0.55rem] sm:text-[0.625rem] text-[#FAF9F6] tracking-[0.14em] line-clamp-1">
-                  {isRTL ? "مطبخ الشيف وجزيرة الرخام" : gallery[2]?.overlayLabel || "CHEF'S KITCHEN & MARBLE ISLAND"}
+                  {isRTL ? gallery[2]?.overlayLabelAr || "مطبخ الشيف وجزيرة الرخام" : gallery[2]?.overlayLabel || "CHEF'S KITCHEN & MARBLE ISLAND"}
                 </span>
               </div>
             </div>
@@ -122,7 +124,7 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
             >
               <img
                 src={gallery[3]?.src}
-                alt={gallery[3]?.title}
+                alt={isRTL ? gallery[3]?.titleAr || title : gallery[3]?.title}
                 className="w-full h-full object-cover object-center opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-500"
               />
               <div className="absolute inset-0 bg-[#0F100C]/50 flex items-center justify-center p-3 text-center">
@@ -152,7 +154,7 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
             <button
               onClick={() => setLightboxOpen(false)}
               className="p-2 border border-[rgba(250,249,246,0.2)] hover:border-[#FAF9F6] text-[#FAF9F6] transition-colors cursor-pointer"
-              aria-label="Close Lightbox"
+              aria-label={isRTL ? "إغلاق المعرض" : "Close Lightbox"}
             >
               <X className="w-5 h-5" />
             </button>
@@ -163,7 +165,7 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
             <button
               onClick={handlePrev}
               className="absolute left-2 sm:left-6 z-10 p-3 bg-[#0F100C]/70 hover:bg-[#0F100C] text-[#FAF9F6] border border-[rgba(250,249,246,0.2)] transition-colors cursor-pointer"
-              aria-label="Previous Image"
+              aria-label={isRTL ? "الصورة السابقة" : "Previous Image"}
             >
               <ChevronLeft className="w-6 h-6 arrow-icon-flip" />
             </button>
@@ -175,14 +177,14 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
                 className="max-h-[65vh] w-auto object-contain border border-[rgba(250,249,246,0.1)]"
               />
               <p className="font-editorial-sans text-xs sm:text-sm text-[#FAF9F6]/80 text-center mt-3 max-w-xl">
-                {activeImage.title} — {activeImage.caption}
+                {isRTL ? `${activeImage.titleAr || title} — ${activeImage.captionAr || "تفاصيل معمارية منتقاة"}` : `${activeImage.title} — ${activeImage.caption}`}
               </p>
             </div>
 
             <button
               onClick={handleNext}
               className="absolute right-2 sm:right-6 z-10 p-3 bg-[#0F100C]/70 hover:bg-[#0F100C] text-[#FAF9F6] border border-[rgba(250,249,246,0.2)] transition-colors cursor-pointer"
-              aria-label="Next Image"
+              aria-label={isRTL ? "الصورة التالية" : "Next Image"}
             >
               <ChevronRight className="w-6 h-6 arrow-icon-flip" />
             </button>
@@ -198,7 +200,7 @@ export default function PropertyGallery({ gallery, title, onOpenTour }) {
                   activeIdx === i ? "border-[#FAF9F6] scale-105" : "border-[rgba(250,249,246,0.2)] opacity-60 hover:opacity-100"
                 }`}
               >
-                <img src={img.src} alt={img.title} className="w-full h-full object-cover" />
+                <img src={img.src} alt={isRTL ? img.titleAr || title : img.title} className="w-full h-full object-cover" />
               </button>
             ))}
           </div>

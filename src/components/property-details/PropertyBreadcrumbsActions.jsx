@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Share2, Bookmark, Printer, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 
-export default function PropertyBreadcrumbsActions({ title = "The Travertine Villa", city = "New Cairo" }) {
+export default function PropertyBreadcrumbsActions({ title = "The Travertine Villa", titleAr, city = "New Cairo" }) {
   const [saved, setSaved] = useState(false);
   const [copied, setCopied] = useState(false);
   const { t, isRTL } = useApp();
@@ -38,20 +38,20 @@ export default function PropertyBreadcrumbsActions({ title = "The Travertine Vil
   };
 
   const cityDisplay = isRTL
-    ? city === "New Cairo"
-      ? "القاهرة الجديدة"
-      : city === "North Coast"
-      ? "الساحل الشمالي"
-      : city === "Zamalek"
-      ? "الزمالك"
-      : city === "El Gouna"
-      ? "الجونة"
-      : city === "Sheikh Zayed"
-      ? "الشيخ زايد"
-      : city === "Soma Bay"
-      ? "سوما باي"
-      : city
+    ? {
+        "New Cairo": "القاهرة الجديدة",
+        "North Coast": "الساحل الشمالي",
+        Zamalek: "الزمالك",
+        "El Gouna": "الجونة",
+        "Sheikh Zayed": "الشيخ زايد",
+        "Soma Bay": "سوما باي",
+        "Ain Sokhna": "العين السخنة",
+        "Downtown Cairo": "وسط القاهرة",
+        "6th of October": "مدينة السادس من أكتوبر",
+        "Dubai Harbour": "ميناء دبي",
+      }[city] || city
     : city.toUpperCase();
+  const displayTitle = isRTL ? titleAr || title : title;
 
   return (
     <div className="w-full bg-[#FAF9F6] dark:bg-[#141513] border-b border-[rgba(36,37,33,0.08)] dark:border-[rgba(250,249,246,0.08)] py-3.5 print:hidden transition-colors">
@@ -70,7 +70,7 @@ export default function PropertyBreadcrumbsActions({ title = "The Travertine Vil
             {cityDisplay}
           </Link>
           <span className="text-[#8C8C86] dark:text-[#70726B]">/</span>
-          <span className="text-[#1A1C1A] dark:text-[#FAF9F6] font-semibold">{title.toUpperCase()}</span>
+          <span className="text-[#1A1C1A] dark:text-[#FAF9F6] font-semibold">{displayTitle}</span>
         </nav>
 
         {/* Action Controls */}

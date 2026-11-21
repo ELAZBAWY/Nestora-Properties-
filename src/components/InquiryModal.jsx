@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { X, Check, Lock } from "lucide-react";
+import { X, Check, Lock, MessageCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { getPropertyWhatsAppMessage, getWhatsAppUrl } from "@/lib/contact";
 
-export default function InquiryModal({ isOpen, onClose, defaultTopic }) {
+export default function InquiryModal({ isOpen, onClose, defaultTopic, propertyName, propertyRef, propertyUrl }) {
   const { t, isRTL } = useApp();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -28,6 +29,18 @@ export default function InquiryModal({ isOpen, onClose, defaultTopic }) {
     setSubmitted(false);
     onClose();
   };
+
+  const whatsappMessage = propertyName
+    ? getPropertyWhatsAppMessage({
+        propertyName,
+        propertyRef,
+        propertyUrl,
+        context: defaultTopic || (isRTL ? "أرغب في مشاركة مزيد من التفاصيل." : "I would like to share more details."),
+        isRTL,
+      })
+    : isRTL
+    ? `مرحباً، أرغب في التواصل مع نستورا بخصوص: ${defaultTopic || "طلب وصول خاص"}. يرجى مشاركة مزيد من التفاصيل.`
+    : `Hello, I would like to contact NESTORA regarding: ${defaultTopic || "Private Portfolio Access"}. Please share more details.`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0F100C]/80 backdrop-blur-sm animate-fadeIn">
@@ -181,6 +194,16 @@ export default function InquiryModal({ isOpen, onClose, defaultTopic }) {
                 {t("modal_submit")}
               </button>
             </div>
+
+            <a
+              href={getWhatsAppUrl(whatsappMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-12 bg-[#1E4D3B] hover:bg-[#15382B] text-[#FAF9F6] label-caps text-xs tracking-[0.16em] transition-colors cursor-pointer border border-[#1E4D3B] font-medium inline-flex items-center justify-center gap-2"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>{t("modal_whatsapp")}</span>
+            </a>
           </form>
         )}
       </div>

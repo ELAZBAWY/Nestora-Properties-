@@ -38,9 +38,9 @@ Authorized by: NESTORA Private Advisory`,
     }, 800);
   };
 
-  const headingText = isRTL ? "المستوى الأول: الحديقة ومنطقة الاستقبال" : floorplan.heading;
+  const headingText = isRTL ? floorplan.headingAr || "المستوى الرئيسي للمعيشة والاستقبال" : floorplan.heading;
   const descriptionText = isRTL
-    ? "تشمل الوثائق المعمارية الكاملة المخططات الميكانيكية والكهربائية والإنسيابية الإنشائية وواجهات CAD الدقيقة للتصميم الداخلي."
+    ? floorplan.descriptionAr || "يتضمن الملف المعماري المخططات الرئيسية ومسارات الخدمة والواجهات ومراجع الخامات الداخلية."
     : floorplan.description;
 
   return (

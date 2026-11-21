@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { MessageSquare, Calendar, Check, Lock } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { getPropertyWhatsAppMessage, getWhatsAppUrl } from "@/lib/contact";
 
-export default function ListingAdvisorSidebar({ advisor, propertyTitle, onOpenViewingModal }) {
+export default function ListingAdvisorSidebar({ advisor, propertyTitle, propertyRef, propertySlug, onOpenViewingModal }) {
   const { t, isRTL } = useApp();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,6 +23,13 @@ export default function ListingAdvisorSidebar({ advisor, propertyTitle, onOpenVi
   };
 
   const advisorRole = isRTL ? "شريك أول، الاستشارات الخاصة" : advisor.role;
+  const whatsappMessage = getPropertyWhatsAppMessage({
+    propertyName: propertyTitle,
+    propertyRef,
+    propertyUrl: propertySlug ? `/properties/${propertySlug}` : undefined,
+    context: isRTL ? "أرغب في التواصل مع مستشار العقار." : "I would like to speak with the property advisor.",
+    isRTL,
+  });
 
   return (
     <aside className="w-full lg:sticky lg:top-28 space-y-6">
@@ -82,9 +90,7 @@ export default function ListingAdvisorSidebar({ advisor, propertyTitle, onOpenVi
         {/* Direct Actions: WhatsApp & Viewing */}
         <div className="space-y-2.5 pb-6 border-b border-[rgba(36,37,33,0.1)] dark:border-[rgba(250,249,246,0.1)]">
           <a
-            href={`https://wa.me/${advisor.whatsapp}?text=${encodeURIComponent(
-              `Hello ${advisor?.name ? advisor.name.split(" ")[0] : "Advisor"}, I am inquiring about ${propertyTitle || "this residence"} on NESTORA.`
-            )}`}
+            href={getWhatsAppUrl(whatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full bg-[#1E4D3B] hover:bg-[#15382B] text-[#FAF9F6] py-3.5 px-4 label-caps text-xs tracking-[0.16em] flex items-center justify-center gap-2 transition-colors cursor-pointer border border-[#1E4D3B]"

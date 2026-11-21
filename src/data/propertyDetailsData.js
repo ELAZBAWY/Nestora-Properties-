@@ -1540,17 +1540,61 @@ const DETAIL_AMENITY_ICONS = [
   "Sparkles",
 ];
 
+const DETAIL_CITY_AR = {
+  "New Cairo": "القاهرة الجديدة",
+  "El Gouna": "الجونة",
+  Zamalek: "الزمالك",
+  "Sheikh Zayed": "الشيخ زايد",
+  "Soma Bay": "سوما باي",
+  "Ain Sokhna": "العين السخنة",
+  "North Coast": "الساحل الشمالي",
+  "Downtown Cairo": "وسط القاهرة",
+  "6th of October": "مدينة السادس من أكتوبر",
+  "Dubai Harbour": "ميناء دبي",
+};
+
+const DETAIL_FEATURE_AR = {
+  "Private Garden": "حديقة خاصة",
+  "Fitted Kitchen": "مطبخ مجهز بالكامل",
+  "Covered Parking": "مواقف سيارات مظللة",
+  "Clubhouse Access": "عضوية النادي ومرافقه",
+  "Private Elevator": "مصعد خاص",
+  "Marina View": "إطلالة على المرسى",
+  "Serviced Residence": "إقامة فندقية بخدمات متكاملة",
+  "Skyline View": "إطلالة بانورامية على المدينة",
+};
+
+function arabicFeatureTitle(title, index) {
+  return DETAIL_FEATURE_AR[title] || [
+    "مساحة خارجية مميزة",
+    "أنظمة منزلية ذكية",
+    "استقبال معماري فاخر",
+    "خدمات سكنية خاصة",
+    "خامات وتشطيبات منتقاة",
+    "أنظمة مناخية موفرة للطاقة",
+    "أمن وخصوصية متكاملان",
+    "مساحة عافية واستجمام خاصة",
+  ][index] || "مرفق خاص مصمم بعناية";
+}
+
 export function createPropertyDetailFromProperty(property) {
   const isRental = property.mode === "RENT";
+  const cityAr = DETAIL_CITY_AR[property.city] || property.city;
   const gallery = [property.image, ...DETAIL_GALLERY_FALLBACKS].map((src, index) => ({
     id: `${property.id}-gallery-${index + 1}`,
     title: `${property.title} — ${index === 0 ? "Exterior Folio" : `Interior Study ${index}`}`,
+    titleAr: `${property.titleAr || property.title} — ${index === 0 ? "الواجهة المعمارية" : `دراسة داخلية ${index}`}`,
     src,
     caption:
       index === 0
         ? property.architecturalNotes
         : `${property.title} presented through a curated architectural detail study.`,
+    captionAr:
+      index === 0
+        ? `واجهة ${property.titleAr || property.title} بتفاصيل معمارية راقية وإضاءة طبيعية مدروسة.`
+        : `تفصيل داخلي منتقى يبرز جودة التصميم والخامات في ${property.titleAr || property.title}.`,
     overlayLabel: index === 0 ? "ARCHITECTURAL FOLIO" : `INTERIOR STUDY ${index}`,
+    overlayLabelAr: index === 0 ? "الملف المعماري" : `دراسة داخلية ${index}`,
   }));
 
   const amenityTitles = [
@@ -1570,14 +1614,18 @@ export function createPropertyDetailFromProperty(property) {
     ref: property.ref,
     refCode: property.id.toUpperCase(),
     title: property.title,
+    titleAr: property.titleAr || property.title,
     city: property.city,
     district: property.district,
     districtLocation: `${property.district}, ${property.city}, ${property.country}`,
+    districtLocationAr: `${property.district}، ${cityAr}، ${property.country === "UAE" ? "الإمارات العربية المتحدة" : "مصر"}`,
     price: property.price,
     period: property.period,
     rawPrice: property.rawPrice,
     priceUSD: isRental ? "Private lease terms available" : "Private valuation dossier available",
+    priceUSDAr: isRental ? "شروط الإيجار الخاص متاحة" : "ملف التقييم الخاص متاح",
     priceNote: isRental ? "Confidential lease terms available on request" : "Private acquisition terms available on request",
+    priceNoteAr: isRental ? "شروط إيجار سرية متاحة عند الطلب" : "شروط التملك الخاصة متاحة عند الطلب",
     statusBadge: property.primaryBadge,
     secondaryBadge: property.secondaryBadge,
     specifications: [
@@ -1634,30 +1682,32 @@ export function createPropertyDetailFromProperty(property) {
     curationNotes: {
       eyebrow: "CURATION NOTES",
       heading: property.title,
-      headingAr: property.title,
+      headingAr: property.titleAr || property.title,
       paragraphs: [
         property.description,
         property.architecturalNotes,
         `${property.title} is presented as a considered private residence with a clear relationship between material, light, landscape, and daily ritual. The folio is available through the NESTORA advisory practice.`,
       ],
       paragraphsAr: [
-        property.description,
-        property.architecturalNotes,
-        `يقدم ${property.title} كمسكن خاص متكامل يجمع بين المواد والضوء والمشهد الطبيعي وإيقاع الحياة اليومية. الملف الكامل متاح عبر ممارسة نستورا الاستشارية الخاصة.`,
+        `${property.titleAr || property.title} مسكن خاص يجمع بين الراحة الراقية والتفاصيل المعمارية المدروسة في موقع مميز داخل ${cityAr}.`,
+        `تتجلى هوية العقار في النسب المتوازنة والمواد المختارة بعناية، مع توزيع يربط الضوء الطبيعي بالمشهد الخارجي واحتياجات الحياة اليومية.`,
+        `يقدم ${property.titleAr || property.title} كمسكن خاص متكامل يجمع بين المواد والضوء والمشهد الطبيعي وإيقاع الحياة اليومية. الملف الكامل متاح عبر ممارسة نستورا الاستشارية الخاصة.`,
       ],
     },
     amenities: amenityTitles.map((title, index) => ({
       id: `${property.id}-amenity-${index + 1}`,
       title,
-      titleAr: title,
+      titleAr: arabicFeatureTitle(title, index),
       description: `${title} curated for the property's ${property.typology.toLowerCase()} brief and private client use.`,
-      descAr: `${title} مصمم بعناية ليتناسب مع طبيعة العقار واحتياجات العملاء الخاصة.`,
+      descAr: `${arabicFeatureTitle(title, index)} مصمم بعناية ليتناسب مع طبيعة العقار واحتياجات العملاء الخاصة.`,
       icon: DETAIL_AMENITY_ICONS[index],
     })),
     floorplan: {
       eyebrow: "FLOOR LEVELS",
       heading: `${property.typology} — Principal Living Level`,
+      headingAr: `${property.typology} — المستوى الرئيسي للمعيشة`,
       description: `The architectural dossier for ${property.title} includes the principal floor arrangement, service circulation, elevations, and key material references.`,
+      descriptionAr: `يتضمن الملف المعماري لـ${property.titleAr || property.title} توزيع المستوى الرئيسي ومسارات الخدمة والواجهات وأهم مراجع الخامات.`,
       downloadActionText: "DOWNLOAD ARCHITECTURAL DOSSIER (PDF)",
       image: property.image,
       specs: [{ val: property.areaDisplay }],
@@ -1665,9 +1715,13 @@ export function createPropertyDetailFromProperty(property) {
     locationSection: {
       eyebrow: "GEOGRAPHIC SANCTUARY",
       heading: `${property.district}, ${property.city}`,
+      headingAr: `${property.district}، ${cityAr}`,
       subtext: `A considered ${property.category.toLowerCase()} setting with direct access to the area's principal cultural, leisure, and business destinations.`,
+      subtextAr: `موقع ${property.category === "Urban Sanctuary" ? "سكني راقٍ" : "مميز"} يتيح وصولاً سهلاً إلى أبرز الوجهات الثقافية والترفيهية ومراكز الأعمال في المنطقة.`,
       badgeTitle: property.city,
+      badgeTitleAr: cityAr,
       badgeDescription: `${property.district} is presented through a private advisory lens with viewing access arranged discreetly.`,
+      badgeDescriptionAr: `يُقدَّم ${property.district} من خلال استشارة خاصة مع تنظيم المعاينات بسرية ومرونة.`,
     },
     advisor: {
       name: "Karim El-Sayed",

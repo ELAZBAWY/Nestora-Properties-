@@ -26,7 +26,63 @@ export {
 export function getPropertyDetail(slugOrId) {
   if (!slugOrId) return null;
   const key = String(slugOrId).toLowerCase().trim();
-  return PROPERTY_DETAILS_MAP[key] || null;
+  const detail = PROPERTY_DETAILS_MAP[key];
+  if (!detail) return null;
+
+  const property = PROPERTIES.find((item) => item.slug === key || item.id === key);
+  const districtAr = {
+    "Choueifat District": "منطقة الشويفات",
+    "Lagoon Phase 3": "المرحلة الثالثة باللاجون",
+    "Northern Island": "الجزيرة الشمالية",
+    "Old Cairo Road Enclave": "منطقة طريق القاهرة القديمة",
+    "Sidi Abdel Rahman": "سيدي عبد الرحمن",
+    "Fairway Enclave": "منطقة الفيرواي",
+  }[property?.district] || property?.district;
+  const cityAr = {
+    "New Cairo": "القاهرة الجديدة",
+    "El Gouna": "الجونة",
+    Zamalek: "الزمالك",
+    "Sheikh Zayed": "الشيخ زايد",
+    "Soma Bay": "سوما باي",
+    "Ain Sokhna": "العين السخنة",
+    "North Coast": "الساحل الشمالي",
+    "Downtown Cairo": "وسط القاهرة",
+    "6th of October": "مدينة السادس من أكتوبر",
+    "Dubai Harbour": "ميناء دبي",
+  }[property?.city] || property?.city;
+  const localizedGallery = (detail.gallery || []).map((image, index) => ({
+    ...image,
+    titleAr: image.titleAr || `${property?.titleAr || detail.title} — ${index === 0 ? "الواجهة المعمارية" : `دراسة داخلية ${index}`}`,
+    captionAr: image.captionAr || "تفاصيل معمارية منتقاة وخامات راقية مصممة بعناية.",
+    overlayLabelAr: image.overlayLabelAr || (index === 0 ? "الملف المعماري" : `دراسة داخلية ${index}`),
+  }));
+  return {
+    ...detail,
+    titleAr: property?.titleAr || detail.titleAr || detail.title,
+    priceUSDAr: detail.priceUSDAr || "تفاصيل التقييم الخاص متاحة",
+    priceNoteAr: detail.priceNoteAr || (detail.priceNote === "Mortgage eligibility from 2.1M down" ? "أهلية تمويل تبدأ من 2.1 مليون" : "شروط خاصة متاحة عند الطلب"),
+    districtLocationAr: detail.districtLocationAr || `${districtAr}، ${cityAr}، ${property?.country === "UAE" ? "الإمارات العربية المتحدة" : "مصر"}`,
+    gallery: localizedGallery,
+    curationNotes: detail.curationNotes
+      ? { ...detail.curationNotes, headingAr: detail.curationNotes.headingAr || property?.titleAr || detail.title }
+      : detail.curationNotes,
+    floorplan: detail.floorplan
+      ? {
+          ...detail.floorplan,
+          headingAr: detail.floorplan.headingAr || "المستوى الرئيسي للمعيشة والاستقبال",
+          descriptionAr: detail.floorplan.descriptionAr || "يتضمن الملف المعماري المخططات الرئيسية ومسارات الخدمة والواجهات ومراجع الخامات الداخلية.",
+        }
+      : detail.floorplan,
+    locationSection: detail.locationSection
+      ? {
+          ...detail.locationSection,
+          headingAr: detail.locationSection.headingAr || `${districtAr}، ${cityAr}`,
+          subtextAr: detail.locationSection.subtextAr || "موقع سكني راقٍ يتيح وصولاً سهلاً إلى أبرز الوجهات الثقافية والترفيهية ومراكز الأعمال.",
+          badgeTitleAr: detail.locationSection.badgeTitleAr || cityAr,
+          badgeDescriptionAr: detail.locationSection.badgeDescriptionAr || "موقع خاص مع تنظيم المعاينات بسرية ومرونة.",
+        }
+      : detail.locationSection,
+  };
 }
 
 /**
@@ -83,6 +139,39 @@ const ADDITIONAL_PROPERTIES = [
   features,
   featured: false,
 }));
+
+const ARABIC_PROPERTY_NAMES = {
+  "the-travertine-villa": "فيلا الترافرتين",
+  "azure-waters-beachfront-villa": "فيلا المياه الزرقاء على الواجهة البحرية",
+  "nile-panorama-sky-penthouse": "بنتهاوس بانوراما النيل",
+  "the-olive-grove-estate": "إستيت بستان الزيتون",
+  "seaside-courtyard-chalet": "شاليه فناء البحر",
+  "signature-glass-pavilion": "الجناح الزجاجي المميز",
+  "the-courtyard-house": "منزل الفناء الداخلي",
+  "palm-residence-duplex": "دوبلكس بالم ريزيدنس",
+  "coral-bay-garden-residence": "إقامة حدائق خليج المرجان",
+  "cedar-ridge-manor": "قصر سيدار ريدج",
+  "limestone-gallery-house": "منزل معرض الحجر الجيري",
+  "marina-azure-duplex": "دوبلكس مارينا آزور",
+  "the-garden-loft-zamalek": "لوفت الحديقة بالزمالك",
+  "crescent-bay-townhouse": "تاون هاوس خليج الهلال",
+  "palm-canopy-retreat": "ملاذ ظلال النخيل",
+  "riverside-executive-residence": "إقامة ريفرسايد التنفيذية",
+  "the-atelier-loft-cairo": "لوفت الأتيليه بالقاهرة",
+  "dune-house-sahel": "منزل الكثبان بالساحل",
+  "marble-courtyard-mansion": "قصر الفناء الرخامي",
+  "harbour-view-serviced-residence": "إقامة إطلالة الميناء",
+  "the-courtyard-pavilion": "الجناح ذي الفناء الداخلي",
+  "westown-terrace-residence": "إقامة ويستاون ذات التراس",
+  "coral-cliff-chalet": "شاليه جرف المرجان",
+  "cedar-court-family-villa": "فيلا سيدار كورت العائلية",
+  "marina-heights-penthouse": "بنتهاوس مارينا هايتس",
+  "downtown-art-deco-loft": "لوفت آرت ديكو في وسط القاهرة",
+  "lagoon-garden-townhouse": "تاون هاوس حديقة اللاجون",
+  "the-palm-court-mansion": "قصر فناء النخيل",
+  "sahel-dune-pavilion": "جناح كثبان الساحل",
+  "riverstone-executive-villa": "فيلا ريفرستون التنفيذية",
+};
 
 export const PROPERTIES = [
   {
@@ -714,7 +803,10 @@ export const PROPERTIES = [
     featured: false,
   },
   ...ADDITIONAL_PROPERTIES,
-];
+].map((property) => ({
+  ...property,
+  titleAr: ARABIC_PROPERTY_NAMES[property.slug] || property.title,
+}));
 
 export const PROPERTY_DETAILS_MAP = {
   ...BASE_PROPERTY_DETAILS_MAP,

@@ -6,51 +6,79 @@
 @theme {
   --font-serif: var(--font-eb-garamond), "EB Garamond", Georgia, serif;
   --font-sans: var(--font-dm-sans), "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-arabic-serif: var(--font-amiri), "Amiri", Georgia, serif;
-  --font-arabic-sans: var(--font-tajawal), "Tajawal", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-arabic-serif: var(--font-ibm-plex-sans-arabic), "IBM Plex Sans Arabic", sans-serif;
+  --font-arabic-sans: var(--font-ibm-plex-sans-arabic), "IBM Plex Sans Arabic", sans-serif;
 
   --color-warm-sand: #EAE3D8;
   --color-warm-sand-light: #F4EFE6;
   --color-warm-sand-dark: #D8CEBE;
-  --color-ivory: #FAF9F6;
-  --color-soft-charcoal: #242521;
-  --color-charcoal-dark: #0F100C;
+  --color-ivory: #F3F0E8;
+  --color-soft-charcoal: #263442;
+  --color-charcoal-dark: #111B26;
   --color-muted-bronze: #A88F70;
   --color-bronze-dark: #705B3F;
-  --color-hairline: rgba(36, 37, 33, 0.12);
-  --color-hairline-solid: #E2DBD0;
-  --color-hairline-dark: rgba(250, 249, 246, 0.15);
+  --color-hairline: rgba(38, 52, 66, 0.14);
+  --color-hairline-solid: #D9D2C4;
+  --color-hairline-dark: rgba(243, 240, 232, 0.16);
 }
 
 :root {
-  --background: #FAF9F6;
-  --foreground: #1A1C1A;
-  --card: #FAF9F6;
-  --card-foreground: #1A1C1A;
-  --panel: #F8F7F4;
-  --border: #E2DBD0;
-  --primary: #242521;
-  --primary-foreground: #FAF9F6;
+  --background: #F3F0E8;
+  --foreground: #202A35;
+  --card: #F3F0E8;
+  --card-foreground: #202A35;
+  --panel: #EEE9DE;
+  --border: #D9D2C4;
+  --primary: #263442;
+  --primary-foreground: #F3F0E8;
   --secondary: #A88F70;
   --secondary-foreground: #FAF9F6;
-  --tertiary: #EAE3D8;
-  --hairline: rgba(36, 37, 33, 0.12);
+  --tertiary: #E5DED0;
+  --hairline: rgba(38, 52, 66, 0.14);
 }
 
 .dark {
-  --background: #141513;
-  --foreground: #FAF9F6;
-  --card: #1A1C1A;
-  --card-foreground: #FAF9F6;
-  --panel: #1E201D;
-  --border: rgba(250, 249, 246, 0.12);
-  --primary: #FAF9F6;
-  --primary-foreground: #141513;
+  --background: #17232F;
+  --foreground: #F3F0E8;
+  --card: #1E2D3A;
+  --card-foreground: #F3F0E8;
+  --panel: #213341;
+  --border: rgba(243, 240, 232, 0.14);
+  --primary: #F3F0E8;
+  --primary-foreground: #17232F;
   --secondary: #C4AD8E;
   --secondary-foreground: #141513;
-  --tertiary: #272925;
-  --hairline: rgba(250, 249, 246, 0.12);
+  --tertiary: #263846;
+  --hairline: rgba(243, 240, 232, 0.14);
 }
+
+/* Palette bridge for the existing utility classes. Keeping this centralized
+   lets the full site move to the warmer ivory / deep navy system consistently. */
+[class~="bg-[#FAF9F6]"] { background-color: var(--color-ivory) !important; }
+[class~="bg-[#F8F7F4]"] { background-color: var(--panel) !important; }
+[class~="bg-[#F4F3F1]"] { background-color: var(--color-warm-sand-light) !important; }
+[class~="bg-[#EAE3D8]"] { background-color: var(--tertiary) !important; }
+[class~="bg-[#1A1C1A]"] { background-color: var(--card) !important; }
+[class~="bg-[#242521]"] { background-color: var(--primary) !important; }
+[class~="bg-[#0F100C]"] { background-color: var(--color-charcoal-dark) !important; }
+[class~="bg-[#141513]"] { background-color: var(--background) !important; }
+
+[class~="text-[#FAF9F6]"] { color: var(--color-ivory) !important; }
+[class~="text-[#1A1C1A]"] { color: var(--foreground) !important; }
+[class~="text-[#242521]"] { color: var(--primary) !important; }
+[class~="text-[#464741]"] { color: #4B5356 !important; }
+
+[class~="border-[#FAF9F6]"] { border-color: var(--color-ivory) !important; }
+[class~="border-[#E2DBD0]"] { border-color: var(--border) !important; }
+[class~="border-[#242521]"] { border-color: var(--primary) !important; }
+
+.dark [class*="dark:bg-[#FAF9F6]"] { background-color: var(--primary) !important; }
+.dark [class*="dark:bg-[#1A1C1A]"] { background-color: var(--card) !important; }
+.dark [class*="dark:bg-[#141513]"] { background-color: var(--background) !important; }
+.dark [class*="dark:bg-[#202220]"] { background-color: var(--panel) !important; }
+.dark [class*="dark:text-[#FAF9F6]"] { color: var(--foreground) !important; }
+.dark [class*="dark:text-[#1A1C1A]"] { color: var(--primary-foreground) !important; }
+.dark [class*="dark:border-[#FAF9F6]"] { border-color: var(--foreground) !important; }
 
 * {
   box-sizing: border-box;
@@ -106,17 +134,80 @@ body {
 [dir="rtl"] .font-editorial-serif {
   font-family: var(--font-arabic-serif);
   letter-spacing: 0 !important;
+  font-style: normal;
 }
 
 [dir="rtl"] .font-editorial-sans {
   font-family: var(--font-arabic-sans);
 }
 
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  font-family: var(--font-arabic-sans);
+  letter-spacing: 0 !important;
+}
+
+[dir="rtl"] h1 {
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+[dir="rtl"] h2 {
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+/* Preserve the English face inside mixed Arabic/English content. */
+[dir="rtl"] :lang(en) {
+  font-family: var(--font-sans);
+  direction: ltr;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+[dir="rtl"] p {
+  font-family: var(--font-arabic-sans);
+  font-weight: 400;
+  line-height: 1.8;
+}
+
 [dir="rtl"] .label-caps {
   font-family: var(--font-arabic-sans);
-  font-size: 0.6875rem;
-  letter-spacing: 0.04em !important;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0 !important;
   text-transform: none !important;
+}
+
+[dir="rtl"] button,
+[dir="rtl"] input,
+[dir="rtl"] select,
+[dir="rtl"] textarea {
+  font-family: var(--font-arabic-sans);
+}
+
+[dir="rtl"] button {
+  font-weight: 600;
+}
+
+[dir="rtl"] input::placeholder,
+[dir="rtl"] textarea::placeholder {
+  font-family: var(--font-arabic-sans);
+  font-weight: 400;
+  opacity: 0.75;
 }
 
 [dir="rtl"] .price-numeral {
@@ -144,6 +235,39 @@ body {
 
 .arrow-icon {
   transition: transform 0.2s ease-in-out;
+}
+
+/* Property folios use a slightly brighter secondary scale in dark mode so
+   architectural copy remains readable without flattening the hierarchy. */
+.dark .property-detail-surface {
+  --detail-primary: #f3f0e8;
+  --detail-secondary: #c5c9c3;
+  --detail-muted: #aeb4ae;
+  --detail-border: rgba(243, 240, 232, 0.2);
+}
+
+.dark .property-detail-surface h1,
+.dark .property-detail-surface h2,
+.dark .property-detail-surface h3,
+.dark .property-detail-surface h4,
+.dark .property-detail-surface .text-\[\#FAF9F6\],
+.dark .property-detail-surface .text-\[\#1A1C1A\] {
+  color: var(--detail-primary) !important;
+}
+
+.dark .property-detail-surface .text-\[\#A0A29C\],
+.dark .property-detail-surface .text-\[\#70726B\],
+.dark .property-detail-surface .text-\[\#8C8C86\] {
+  color: var(--detail-secondary) !important;
+}
+
+.dark .property-detail-surface .text-\[\#464741\] {
+  color: var(--detail-muted) !important;
+}
+
+.dark .property-detail-surface [class~="dark:border-[rgba(250,249,246,0.1)]"],
+.dark .property-detail-surface [class~="dark:border-[rgba(250,249,246,0.15)]"] {
+  border-color: var(--detail-border) !important;
 }
 
 /* Lightweight editorial motion: compositor-friendly and opt-out for reduced motion. */

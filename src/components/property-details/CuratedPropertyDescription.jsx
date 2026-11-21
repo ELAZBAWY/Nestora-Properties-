@@ -12,7 +12,7 @@ export default function CuratedPropertyDescription({ curationNotes }) {
   const { t, isRTL } = useApp();
 
   const eyebrow = t("detail_curation_eyebrow");
-  const heading = t("detail_curation_heading");
+  const heading = isRTL ? curationNotes.headingAr || t("detail_curation_heading") : t("detail_curation_heading");
   const paragraphs = isRTL && curationNotes.paragraphsAr ? curationNotes.paragraphsAr : (isRTL ? AR_PARAGRAPHS : curationNotes.paragraphs);
 
   return (

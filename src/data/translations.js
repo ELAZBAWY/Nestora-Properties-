@@ -155,6 +155,7 @@ export const DICTIONARY = {
     spec_beds: "Beds",
     spec_baths: "Baths",
     spec_per_month: "/ month",
+    whatsapp_contact: "WHATSAPP",
 
     // Modals
     modal_close: "Close",
@@ -166,6 +167,7 @@ export const DICTIONARY = {
     modal_budget_label: "TARGET BUDGET RANGE",
     modal_nda_label: "I require non-disclosure and strict discretion regarding this asset inquiry.",
     modal_submit: "DISPATCH PRIVATE REQUEST",
+    modal_whatsapp: "MESSAGE VIA WHATSAPP",
     modal_confirmed_title: "Advisory Docket Received",
     modal_confirmed_desc: "Our Senior Managing Partner will contact you within two business hours via secure, encrypted channels. Discretion guaranteed.",
     modal_return: "RETURN TO PORTFOLIO",
@@ -349,6 +351,7 @@ export const DICTIONARY = {
     spec_beds: "غرف",
     spec_baths: "حمامات",
     spec_per_month: "/ شهرياً",
+    whatsapp_contact: "واتساب",
 
     // Modals
     modal_close: "إغلاق",
@@ -360,6 +363,7 @@ export const DICTIONARY = {
     modal_budget_label: "نطاق الميزانية المستهدف",
     modal_nda_label: "أطلب اتفاقية عدم إفصاح وسرية تامة بخصوص هذا الاستفسار العقاري.",
     modal_submit: "إرسال الطلب السري",
+    modal_whatsapp: "التواصل عبر واتساب",
     modal_confirmed_title: "تم استلام ملف الاستشارة",
     modal_confirmed_desc: "سيتواصل معك الشريك الإداري الأول لدينا خلال ساعتي عمل عبر قنوات اتصال مشفرة وآمنة. الخصوصية مضمونة.",
     modal_return: "العودة إلى المحفظة",

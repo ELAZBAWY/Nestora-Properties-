@@ -1,4 +1,4 @@
-import { EB_Garamond, DM_Sans, Amiri, Tajawal } from "next/font/google";
+import { EB_Garamond, DM_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import ScrollRevealObserver from "@/components/ScrollRevealObserver";
@@ -15,17 +15,10 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const amiri = Amiri({
-  variable: "--font-amiri",
+const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
+  variable: "--font-ibm-plex-sans-arabic",
   subsets: ["arabic", "latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-const tajawal = Tajawal({
-  variable: "--font-tajawal",
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -42,7 +35,7 @@ export default function RootLayout({ children }) {
       dir="ltr"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${ebGaramond.variable} ${dmSans.variable} ${amiri.variable} ${tajawal.variable} h-full antialiased`}
+      className={`${ebGaramond.variable} ${dmSans.variable} ${ibmPlexSansArabic.variable} h-full antialiased`}
     >
       <head>
         <script

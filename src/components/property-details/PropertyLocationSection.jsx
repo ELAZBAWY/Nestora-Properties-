@@ -7,13 +7,13 @@ export default function PropertyLocationSection({ locationSection }) {
   const { t, isRTL } = useApp();
 
   const eyebrow = t("detail_geo_eyebrow");
-  const heading = isRTL ? "منطقة الشويفات، التجمع الخامس" : locationSection.heading;
+  const heading = isRTL ? locationSection.headingAr || locationSection.heading : locationSection.heading;
   const subtext = isRTL
-    ? "موقع استثنائي على بعد دقائق من منتجع قطامية هايتس للجولف والتنس، والمدرسة البريطانية الدولية بالقاهرة، وسهولة الوصول إلى الطريق الدائري ومحور المشير."
+    ? locationSection.subtextAr || locationSection.subtext
     : locationSection.subtext;
-  const badgeTitle = isRTL ? "موقع حصري مميز" : locationSection.badgeTitle;
+  const badgeTitle = isRTL ? locationSection.badgeTitleAr || "موقع حصري مميز" : locationSection.badgeTitle;
   const badgeDescription = isRTL
-    ? "شارع خاص هادئ مع تقييد مرور المركبات غير السكنية لأقصى درجات الخصوصية."
+    ? locationSection.badgeDescriptionAr || "موقع خاص هادئ مع تنظيم الوصول لضمان أعلى درجات الخصوصية."
     : locationSection.badgeDescription;
 
   return (

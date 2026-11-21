@@ -6,6 +6,17 @@ import { useApp } from "@/context/AppContext";
 
 export default function SimilarResidencesSection({ similarResidences }) {
   const { t, isRTL } = useApp();
+  const similarTitleAr = {
+    "The Travertine Villa": "فيلا الترافرتين",
+    "The Olive Grove Estate": "قصر بستان الزيتون",
+    "Azure Waters Lagoon Villa": "فيلا مياه أزور الشاطئية",
+  };
+  const similarCategoryAr = {
+    "Gated Compound": "مجمع سكني مسور",
+    "Integrated Estate": "قصر ومزرعة متكاملة",
+    "Beachfront Villa": "فيلا شاطئية فاخرة",
+    "Glass Pavilion Villa": "فيلا جناح زجاجي",
+  };
 
   return (
     <section className="w-full bg-[#FAF9F6] dark:bg-[#141513] py-20 border-t border-[rgba(36,37,33,0.1)] dark:border-[rgba(250,249,246,0.1)] transition-colors">
@@ -60,19 +71,13 @@ export default function SimilarResidencesSection({ similarResidences }) {
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
                   <span className="label-caps text-[0.625rem] text-[#705B3F] dark:text-[#C5A880] tracking-[0.16em] block mb-1.5">
-                    {isRTL && item.category === "Beachfront Villa"
-                      ? "فيلا شاطئية فاخرة"
-                      : isRTL && item.category === "Glass Pavilion Villa"
-                      ? "فيلا جناح زجاجي"
-                      : isRTL && item.category === "Integrated Estate"
-                      ? "قصر ومزرعة متكاملة"
-                      : item.category}
+                    {isRTL ? item.categoryAr || similarCategoryAr[item.category] || item.category : item.category}
                   </span>
                   <h3 className="font-editorial-serif text-2xl font-normal text-[#1A1C1A] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] transition-colors mb-2">
-                    {item.title}
+                    {isRTL ? item.titleAr || similarTitleAr[item.title] || item.title : item.title}
                   </h3>
                   <p className="font-editorial-sans text-xs text-[#464741] dark:text-[#A0A29C] line-clamp-2 leading-relaxed">
-                    {item.description}
+                    {isRTL ? item.descriptionAr || "إقامة خاصة بتفاصيل معمارية راقية وموقع استثنائي." : item.description}
                   </p>
                 </div>
 

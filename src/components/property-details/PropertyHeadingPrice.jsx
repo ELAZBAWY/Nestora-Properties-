@@ -16,13 +16,36 @@ export default function PropertyHeadingPrice({ detail }) {
   const secondaryBadgeText =
     detail.secondaryBadge === "EXCLUSIVE LISTING"
       ? t("detail_exclusive")
-      : isRTL && detail.secondaryBadge === "EXCLUSIVE"
-      ? "إدراج حصري"
+      : isRTL
+      ? {
+          EXCLUSIVE: "إدراج حصري",
+          "★ EXCLUSIVE": "إدراج حصري",
+          "≈ WATERFRONT": "واجهة مائية",
+          FURNISHED: "مفروش بالكامل",
+          "PRIVATE GROUNDS": "حدائق خاصة",
+          "SEASONAL • SAHEL": "إيجار موسمي • الساحل",
+          "GOLF FRONTAGE": "واجهة جولف",
+          "COURTYARD LIVING": "معيشة حول فناء داخلي",
+          "FULLY FURNISHED": "مفروش بالكامل",
+          "SEA ACCESS": "وصول مباشر إلى البحر",
+          "ARCHITECTURAL FOLIO": "ملف معماري",
+          "SUMMER LEASE": "إيجار صيفي",
+          "GARDEN LEVEL": "طابق الحديقة",
+          "LAGOON EDGE": "على حافة اللاجون",
+          "PRIVATE BEACH": "شاطئ خاص",
+          "EXECUTIVE COMPOUND": "مجمع تنفيذي",
+          "CREATIVE RESIDENCE": "إقامة إبداعية",
+          "DUNE FRONTAGE": "واجهة على الكثبان",
+          "ULTRA-PRIME": "فئة فائقة التميز",
+          "SERVICED PENTHOUSE": "بنتهاوس بخدمات فندقية",
+        }[detail.secondaryBadge] || detail.secondaryBadge
       : detail.secondaryBadge;
 
   const priceNoteText =
     detail.priceNote === "Mortgage eligibility from 2.1M down"
       ? t("detail_mortgage_note")
+      : isRTL
+      ? detail.priceNoteAr || "شروط خاصة متاحة عند الطلب"
       : detail.priceNote;
 
   return (
@@ -46,13 +69,13 @@ export default function PropertyHeadingPrice({ detail }) {
 
             {/* Title */}
             <h1 className="font-editorial-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] text-[#1A1C1A] dark:text-[#FAF9F6] font-normal tracking-[-0.015em] leading-[1.12]">
-              {detail.title}
+              {isRTL ? detail.titleAr || detail.title : detail.title}
             </h1>
 
             {/* Location */}
             <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-editorial-sans text-[#464741] dark:text-[#A0A29C]">
               <MapPin className="w-3.5 h-3.5 text-[#705B3F] dark:text-[#C5A880] shrink-0" />
-              <span>{detail.districtLocation}</span>
+              <span>{isRTL ? detail.districtLocationAr || detail.districtLocation : detail.districtLocation}</span>
             </div>
           </div>
 
@@ -65,7 +88,7 @@ export default function PropertyHeadingPrice({ detail }) {
               {detail.price}
             </div>
             <div className="font-editorial-sans text-xs text-[#705B3F] dark:text-[#C5A880] mt-1 tracking-wide">
-              <span>{detail.priceUSD}</span>
+              <span>{isRTL ? detail.priceUSDAr || detail.priceUSD : detail.priceUSD}</span>
               <span className="mx-1.5 text-[#8C8C86] dark:text-[#70726B]">•</span>
               <span className="text-[#464741] dark:text-[#A0A29C]">{priceNoteText}</span>
             </div>

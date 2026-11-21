@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Compass } from "lucide-react";
+import { ArrowRight, Compass, MessageCircle } from "lucide-react";
 import { PROPERTIES, getPropertyDetailUrl } from "@/data/properties";
 import { useApp } from "@/context/AppContext";
+import { getPropertyWhatsAppMessage, getWhatsAppUrl } from "@/lib/contact";
 
 // Keep the collection backed by the centralized property dataset.
 export const PROPERTIES_DATA = PROPERTIES;
@@ -42,6 +43,14 @@ export default function CuratedCollection({
           <div data-scroll-reveal className="nestora-stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-12">
             {displayProps.map((prop) => {
             const detailUrl = getPropertyDetailUrl(prop);
+            const displayTitle = isRTL ? prop.titleAr || prop.title : prop.title;
+            const whatsappMessage = getPropertyWhatsAppMessage({
+              propertyName: displayTitle,
+              propertyRef: prop.ref,
+              propertyUrl: prop.href || detailUrl,
+              context: isRTL ? "أرغب في معرفة المزيد عن هذا العقار." : "I would like to learn more about this residence.",
+              isRTL,
+            });
 
             const CardContent = (
               <article
@@ -51,7 +60,7 @@ export default function CuratedCollection({
                 <div className="relative aspect-[16/10] overflow-hidden bg-[#EAE3D8] dark:bg-[#202220]">
                   <img
                     src={prop.image}
-                    alt={prop.title}
+                    alt={displayTitle}
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
 
@@ -79,7 +88,7 @@ export default function CuratedCollection({
 
                     {/* Property Name */}
                     <h3 className="font-editorial-serif text-2xl font-normal text-[#1A1C1A] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] transition-colors mb-2.5">
-                      {prop.title}
+                      {displayTitle}
                     </h3>
 
                     {/* Description */}
@@ -109,11 +118,26 @@ export default function CuratedCollection({
                     </div>
 
                     {/* Action Link with 4px Arrow Nudge */}
-                    <div className="pt-5 mt-4 border-t border-[rgba(36,37,33,0.06)] dark:border-[rgba(250,249,246,0.06)] flex items-center justify-between hover-nudge-arrow">
+                    <div className="pt-5 mt-4 border-t border-[rgba(36,37,33,0.06)] dark:border-[rgba(250,249,246,0.06)] flex flex-wrap items-center justify-between gap-3">
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          window.open(getWhatsAppUrl(whatsappMessage), "_blank", "noopener,noreferrer");
+                        }}
+                        aria-label={`${t("whatsapp_contact")} ${displayTitle}`}
+                        className="inline-flex shrink-0 items-center gap-1.5 bg-[#1E4D3B] hover:bg-[#15382B] text-[#FAF9F6] px-3 py-2 label-caps text-[0.6rem] tracking-wider transition-colors"
+                      >
+                        <MessageCircle className="w-3.5 h-3.5" />
+                        <span>{t("whatsapp_contact")}</span>
+                      </button>
+                      <div className="inline-flex items-center gap-2 hover-nudge-arrow">
                       <span className="label-caps text-[0.6875rem] text-[#242521] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] transition-colors">
                         {t("col_view_residence")}
                       </span>
                       <ArrowRight className="w-3.5 h-3.5 text-[#242521] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] arrow-icon arrow-icon-flip" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -121,15 +145,13 @@ export default function CuratedCollection({
             );
 
             return detailUrl ? (
-              <Link
-                key={prop.id}
-                href={detailUrl}
-                className="block no-underline h-full"
-              >
-                {CardContent}
-              </Link>
+              <div key={prop.id} className="relative block h-full">
+                <Link href={detailUrl} className="block no-underline h-full">
+                  {CardContent}
+                </Link>
+              </div>
             ) : (
-              <div key={prop.id} className="block h-full">
+              <div key={prop.id} className="relative block h-full">
                 {CardContent}
               </div>
             );

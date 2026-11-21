@@ -1,13 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Bed, Bath, Maximize2 } from "lucide-react";
+import { ArrowRight, Bed, Bath, Maximize2, MessageCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { getPropertyDetailUrl } from "@/data/properties";
+import { getPropertyWhatsAppMessage, getWhatsAppUrl } from "@/lib/contact";
 
 export default function PropertyCard({ property, viewMode = "grid" }) {
   const { t, isRTL } = useApp();
   const detailUrl = getPropertyDetailUrl(property);
+  const displayTitle = isRTL ? property.titleAr || property.title : property.title;
+  const whatsappMessage = getPropertyWhatsAppMessage({
+    propertyName: displayTitle,
+    propertyRef: property.ref,
+    propertyUrl: property.href || detailUrl,
+    context: isRTL ? "أرغب في معرفة المزيد عن هذا العقار." : "I would like to learn more about this residence.",
+    isRTL,
+  });
+  const WhatsAppAction = (
+    <button
+      type="button"
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        window.open(getWhatsAppUrl(whatsappMessage), "_blank", "noopener,noreferrer");
+      }}
+      aria-label={`${t("whatsapp_contact")} ${displayTitle}`}
+      className="inline-flex shrink-0 items-center gap-1.5 bg-[#1E4D3B] hover:bg-[#15382B] text-[#FAF9F6] px-3 py-2 label-caps text-[0.6rem] tracking-wider transition-colors"
+    >
+      <MessageCircle className="w-3.5 h-3.5" />
+      <span>{t("whatsapp_contact")}</span>
+    </button>
+  );
 
   const primaryBadgeText =
     property.primaryBadge === "FOR SALE"
@@ -32,7 +56,7 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
         <div className="relative w-full md:w-80 md:min-w-[320px] aspect-[16/10] md:aspect-auto overflow-hidden bg-[#EAE3D8] dark:bg-[#202220]">
           <img
             src={property.image}
-            alt={property.title}
+            alt={displayTitle}
             className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
           />
           {/* Badges */}
@@ -57,7 +81,7 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
 
             {/* Title */}
             <h3 className="font-editorial-serif text-2xl md:text-3xl font-normal text-[#1A1C1A] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] transition-colors mb-2">
-              {property.title}
+              {displayTitle}
             </h3>
 
             {/* Price */}
@@ -93,11 +117,14 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
               </span>
             </div>
 
-            <div className="inline-flex items-center gap-2 hover-nudge-arrow">
+            <div className="flex flex-wrap items-center justify-end gap-3">
+              {WhatsAppAction}
+              <div className="inline-flex items-center gap-2 hover-nudge-arrow">
               <span className="label-caps text-xs text-[#242521] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] transition-colors">
                 {t("col_view_residence")}
               </span>
               <ArrowRight className="w-3.5 h-3.5 text-[#242521] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] arrow-icon arrow-icon-flip" />
+              </div>
             </div>
           </div>
         </div>
@@ -105,9 +132,11 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
     );
 
     return detailUrl ? (
-      <Link href={detailUrl} className="block no-underline">
-        {ListCardContent}
-      </Link>
+      <div className="relative block no-underline h-full">
+        <Link href={detailUrl} className="block h-full">
+          {ListCardContent}
+        </Link>
+      </div>
     ) : (
       ListCardContent
     );
@@ -122,7 +151,7 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
       <div className="relative aspect-[16/10] overflow-hidden bg-[#EAE3D8] dark:bg-[#202220]">
         <img
           src={property.image}
-          alt={property.title}
+          alt={displayTitle}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
         />
 
@@ -150,7 +179,7 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
 
           {/* Property Name */}
           <h3 className="font-editorial-serif text-2xl font-normal text-[#1A1C1A] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] transition-colors mb-2">
-            {property.title}
+            {displayTitle}
           </h3>
 
           {/* Price */}
@@ -182,11 +211,14 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
           </div>
 
           {/* Action Link with 4px Arrow Nudge */}
-          <div className="pt-4 mt-4 border-t border-[rgba(36,37,33,0.06)] dark:border-[rgba(250,249,246,0.06)] flex items-center justify-between hover-nudge-arrow">
+          <div className="pt-4 mt-4 border-t border-[rgba(36,37,33,0.06)] dark:border-[rgba(250,249,246,0.06)] flex flex-wrap items-center justify-between gap-3">
+            {WhatsAppAction}
+            <div className="inline-flex items-center gap-2 hover-nudge-arrow">
             <span className="label-caps text-[0.6875rem] text-[#242521] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] transition-colors">
               {t("col_view_residence")}
             </span>
             <ArrowRight className="w-3.5 h-3.5 text-[#242521] dark:text-[#FAF9F6] group-hover:text-[#705B3F] dark:group-hover:text-[#C5A880] arrow-icon arrow-icon-flip" />
+            </div>
           </div>
         </div>
       </div>
@@ -194,9 +226,11 @@ export default function PropertyCard({ property, viewMode = "grid" }) {
   );
 
   return detailUrl ? (
-    <Link href={detailUrl} className="block no-underline h-full">
-      {GridCardContent}
-    </Link>
+    <div className="relative block no-underline h-full">
+      <Link href={detailUrl} className="block no-underline h-full">
+        {GridCardContent}
+      </Link>
+    </div>
   ) : (
     <div className="block h-full">
       {GridCardContent}

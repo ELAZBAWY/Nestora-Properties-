@@ -14,42 +14,52 @@ import PropertyFloorplanSection from "@/components/property-details/PropertyFloo
 import PropertyLocationSection from "@/components/property-details/PropertyLocationSection";
 import ListingAdvisorSidebar from "@/components/property-details/ListingAdvisorSidebar";
 import SimilarResidencesSection from "@/components/property-details/SimilarResidencesSection";
+import { useApp } from "@/context/AppContext";
+import { PROPERTIES } from "@/data/properties";
 
 export default function PropertyDetailLayout({ detail }) {
+  const { isRTL } = useApp();
+  const propertyRecord = detail
+    ? PROPERTIES.find((property) => property.slug === detail.slug || property.id === detail.id)
+    : null;
+  const localizedDetail = detail
+    ? { ...detail, titleAr: detail.titleAr || propertyRecord?.titleAr || detail.title }
+    : detail;
+  const displayTitle = isRTL ? localizedDetail?.titleAr || localizedDetail?.title : localizedDetail?.title;
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
-  const [inquiryTopic, setInquiryTopic] = useState(`Private Viewing: ${detail?.title || "Exclusive Residence"}`);
+  const [inquiryTopic, setInquiryTopic] = useState(`Private Viewing: ${displayTitle || "Exclusive Residence"}`);
 
   if (!detail) {
     return null;
   }
 
   const handleOpenViewing = (topicTitle) => {
-    setInquiryTopic(`Private Viewing: ${topicTitle || detail.title}`);
+    setInquiryTopic(`Private Viewing: ${topicTitle || displayTitle}`);
     setInquiryModalOpen(true);
   };
 
   const handleOpenGeneralInquiry = (topic) => {
-    setInquiryTopic(topic || `Inquiry: ${detail.title}`);
+    setInquiryTopic(topic || `Inquiry: ${displayTitle}`);
     setInquiryModalOpen(true);
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#141513] text-[#1A1C1A] dark:text-[#FAF9F6] selection:bg-[#EAE3D8] selection:text-[#0F100C] transition-colors">
+    <div className="property-detail-surface min-h-screen bg-[#FAF9F6] dark:bg-[#141513] text-[#1A1C1A] dark:text-[#FAF9F6] selection:bg-[#EAE3D8] selection:text-[#0F100C] transition-colors">
       {/* Sticky Editorial Header */}
       <Navbar onOpenInquiry={handleOpenGeneralInquiry} />
 
       <main>
         {/* Section A: Breadcrumbs and Discreet Property Actions */}
-        <PropertyBreadcrumbsActions title={detail.title} city={detail.city} />
+        <PropertyBreadcrumbsActions title={localizedDetail.title} titleAr={localizedDetail.titleAr} city={localizedDetail.city} />
 
         {/* Section B: Property Heading, Badges, and Price Banner */}
-        <PropertyHeadingPrice detail={detail} />
+        <PropertyHeadingPrice detail={localizedDetail} />
 
         {/* Section C: Main Property Gallery */}
         <PropertyGallery
-          gallery={detail.gallery}
-          title={detail.title}
-          onOpenTour={() => handleOpenViewing(`${detail.title} — Virtual 3D Tour`)}
+          gallery={localizedDetail.gallery}
+          title={displayTitle}
+          onOpenTour={() => handleOpenViewing(`${displayTitle} — Virtual 3D Tour`)}
         />
 
         {/* Section D: Horizontal Specifications Strip */}
@@ -70,7 +80,7 @@ export default function PropertyDetailLayout({ detail }) {
                 {/* Section I: Floor Levels / Floorplan */}
                 <PropertyFloorplanSection
                   floorplan={detail.floorplan}
-                  propertyTitle={detail.title}
+                  propertyTitle={displayTitle}
                   refCode={detail.refCode}
                 />
 
@@ -82,7 +92,9 @@ export default function PropertyDetailLayout({ detail }) {
               <div className="lg:col-span-4">
                 <ListingAdvisorSidebar
                   advisor={detail.advisor}
-                  propertyTitle={detail.title}
+                  propertyTitle={displayTitle}
+                  propertyRef={detail.ref}
+                  propertySlug={detail.slug}
                   onOpenViewingModal={handleOpenViewing}
                 />
               </div>
@@ -104,6 +116,9 @@ export default function PropertyDetailLayout({ detail }) {
         isOpen={inquiryModalOpen}
         onClose={() => setInquiryModalOpen(false)}
         defaultTopic={inquiryTopic}
+        propertyName={displayTitle}
+        propertyRef={detail.ref}
+        propertyUrl={detail.slug ? `/properties/${detail.slug}` : undefined}
       />
     </div>
   );
