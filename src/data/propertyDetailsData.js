@@ -573,27 +573,31 @@ export const NILE_PANORAMA_DETAIL = {
       id: "gal-1",
       title: "Panoramic Nile Skyline & Wraparound Terrace",
       src: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=88",
-      caption: "370-degree vistas over the historic Nile and Cairo skyline from private top-floor terrace",
+      caption:
+        "370-degree vistas over the historic Nile and Cairo skyline from private top-floor terrace",
     },
     {
       id: "gal-2",
       title: "Grand Living Salon & Brass Accents",
       src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=88",
-      caption: "Double-height reception salon with smoked oak flooring and custom Italian marble finishes",
+      caption:
+        "Double-height reception salon with smoked oak flooring and custom Italian marble finishes",
       overlayLabel: "GRAND SALON & BRASS ACCENTS",
     },
     {
       id: "gal-3",
       title: "Designer Poliform Kitchen",
       src: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=88",
-      caption: "Custom Poliform kitchen with Gaggenau appliances, integrated wine cellar, and bar island",
+      caption:
+        "Custom Poliform kitchen with Gaggenau appliances, integrated wine cellar, and bar island",
       overlayLabel: "DESIGNER POLIFORM KITCHEN",
     },
     {
       id: "gal-4",
       title: "Master Sky Suite Overlooking River",
       src: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=88",
-      caption: "Panoramic master chamber with acoustic insulated glass and direct terrace access",
+      caption:
+        "Panoramic master chamber with acoustic insulated glass and direct terrace access",
       overlayLabel: "VIEW ALL 22 PHOTOGRAPHS & PLANS",
     },
   ],
@@ -619,7 +623,8 @@ export const NILE_PANORAMA_DETAIL = {
       id: "amen-1",
       title: "Private Keyed Elevator",
       titleAr: "مصعد خاص مباشر بمفتاح أمان",
-      description: "Direct keyed access into private penthouse foyer from underground parking.",
+      description:
+        "Direct keyed access into private penthouse foyer from underground parking.",
       descriptionAr: "وصول مباشر مشفر بالمفتاح إلى بهو البنتهاوس من المرآب.",
       icon: "Home",
     },
@@ -627,23 +632,28 @@ export const NILE_PANORAMA_DETAIL = {
       id: "amen-2",
       title: "370° Skyline View",
       titleAr: "إطلالة بانورامية كاملة 370 درجة",
-      description: "Panoramic vistas over both branches of the Nile and downtown skyline.",
-      descriptionAr: "إطلالة ساحرة شاملة على ضفتي نهر النيل وأفق القاهرة التاريخي.",
+      description:
+        "Panoramic vistas over both branches of the Nile and downtown skyline.",
+      descriptionAr:
+        "إطلالة ساحرة شاملة على ضفتي نهر النيل وأفق القاهرة التاريخي.",
       icon: "Sparkles",
     },
     {
       id: "amen-3",
       title: "Wraparound Terrace",
       titleAr: "تراس خارجي محيطي متكامل",
-      description: "120 m² continuous landscaped terrace with automated misting cooling.",
-      descriptionAr: "تراس واسع بمساحة 120 متراً مربعاً مجهز بنظام رذاذ تلطيف الأجواء.",
+      description:
+        "120 m² continuous landscaped terrace with automated misting cooling.",
+      descriptionAr:
+        "تراس واسع بمساحة 120 متراً مربعاً مجهز بنظام رذاذ تلطيف الأجواء.",
       icon: "Columns",
     },
     {
       id: "amen-4",
       title: "Poliform Chef Kitchen",
       titleAr: "مطبخ شيف Poliform إيطالي",
-      description: "Italian Poliform cabinetry with Gaggenau induction and dual refrigeration.",
+      description:
+        "Italian Poliform cabinetry with Gaggenau induction and dual refrigeration.",
       descriptionAr: "خزائن إيطالية فاخرة وأجهزة Gaggenau الاحترافية.",
       icon: "UtensilsCrossed",
     },
@@ -651,15 +661,18 @@ export const NILE_PANORAMA_DETAIL = {
       id: "amen-5",
       title: "Acoustic Glazing",
       titleAr: "زجاج عازل للصوت عالي الأداء",
-      description: "Thermal acoustic laminate glazing ensuring pin-drop quiet interiors.",
-      descriptionAr: "واجهات زجاجية عازلة للضوضاء والحرارة لأعلى درجات الهدوء والسكينة.",
+      description:
+        "Thermal acoustic laminate glazing ensuring pin-drop quiet interiors.",
+      descriptionAr:
+        "واجهات زجاجية عازلة للضوضاء والحرارة لأعلى درجات الهدوء والسكينة.",
       icon: "ShieldCheck",
     },
     {
       id: "amen-6",
       title: "Valet & 24/7 Concierge",
       titleAr: "خدمات كونسيرج وصف سيارات 24/7",
-      description: "Dedicated residential concierge desk and subterranean parking valet.",
+      description:
+        "Dedicated residential concierge desk and subterranean parking valet.",
       descriptionAr: "فريق استقبال وخدمة صف سيارات متاح على مدار الساعة.",
       icon: "Home",
     },
@@ -667,7 +680,8 @@ export const NILE_PANORAMA_DETAIL = {
       id: "amen-7",
       title: "Sommelier Wine Storage",
       titleAr: "خزانة حفظ المشروبات الذكية",
-      description: "Dual-temperature climate cabinet holding up to 180 curated bottles.",
+      description:
+        "Dual-temperature climate cabinet holding up to 180 curated bottles.",
       descriptionAr: "خزانة مبردة بنظامين للحرارة لحفظ المشروبات الفاخرة.",
       icon: "Sparkles",
     },
@@ -675,8 +689,10 @@ export const NILE_PANORAMA_DETAIL = {
       id: "amen-8",
       title: "Crestron Smart Controls",
       titleAr: "نظام أتمتة منزلي Crestron",
-      description: "Automated ambient lighting scenes, climate scheduling, and surround audio.",
-      descriptionAr: "تحكم رقمي باللمس في الإضاءة المعمارية والتكييف والأنظمة الصوتية.",
+      description:
+        "Automated ambient lighting scenes, climate scheduling, and surround audio.",
+      descriptionAr:
+        "تحكم رقمي باللمس في الإضاءة المعمارية والتكييف والأنظمة الصوتية.",
       icon: "Cpu",
     },
   ],
@@ -697,7 +713,8 @@ export const NILE_PANORAMA_DETAIL = {
     subtext:
       "Surrounded by diplomatic embassies, boutique art galleries, and historic rowing clubs on the quiet banks of the Nile.",
     badgeTitle: "Diplomatic Quarter",
-    badgeDescription: "High-security residential zone with restricted diplomatic street access.",
+    badgeDescription:
+      "High-security residential zone with restricted diplomatic street access.",
   },
 
   advisor: {
@@ -705,7 +722,7 @@ export const NILE_PANORAMA_DETAIL = {
     role: "Senior Partner, Private Advisory",
     ref: "Partner Ref. #NK-914",
     avatar:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
     officeDirect: "+20 (0) 2 2790 4400",
     privateMobile: "+20 100 248 9912",
     whatsapp: "+201002489912",
@@ -718,10 +735,12 @@ export const NILE_PANORAMA_DETAIL = {
       locationBadge: "NEW CAIRO",
       category: "Gated Compound",
       price: "EGP 42,000,000",
-      description: "Brutalist elegance in hand-hewn travertine with secluded reflecting pools and private family wing.",
+      description:
+        "Brutalist elegance in hand-hewn travertine with secluded reflecting pools and private family wing.",
       beds: "5 Beds",
       area: "600 m²",
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=85",
+      image:
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=85",
       href: "/properties/the-travertine-villa",
     },
     {
@@ -730,10 +749,12 @@ export const NILE_PANORAMA_DETAIL = {
       locationBadge: "EL GOUNA",
       category: "Beachfront Villa",
       price: "EGP 38,500,000",
-      description: "Direct lagoon access, boat mooring for up to 45ft vessel, wood pergolas, lagoon vistas.",
+      description:
+        "Direct lagoon access, boat mooring for up to 45ft vessel, wood pergolas, lagoon vistas.",
       beds: "4 Beds",
       area: "520 m²",
-      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=85",
+      image:
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=85",
       href: "/properties/azure-waters-beachfront-villa",
     },
     {
@@ -742,10 +763,12 @@ export const NILE_PANORAMA_DETAIL = {
       locationBadge: "SHEIKH ZAYED",
       category: "Integrated Estate",
       price: "EGP 55,000,000",
-      description: "Secluded 3,200 m² grounds with mature heritage olive trees, grand pavilion pool, wine cellar.",
+      description:
+        "Secluded 3,200 m² grounds with mature heritage olive trees, grand pavilion pool, wine cellar.",
       beds: "6 Beds",
       area: "920 m²",
-      image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=85",
+      image:
+        "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=85",
       href: "/properties/the-olive-grove-estate",
     },
   ],
